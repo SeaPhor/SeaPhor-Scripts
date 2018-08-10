@@ -1,0 +1,57 @@
+Using custom date command in scripts and/or cli
+
+In Scripts create Variables for date output/input
+TDATE=`date +%a\ %b\ %d\ %Y`
+JDATE=`date +%y%m%d-%H.%M.%S`
+WDATE="`date +%U\ %Y`"
+
+Examples and outputs-
+Casual
+$ date +%a\ %b\ %d\ %Y
+Mon Apr 30 2018
+
+International
+$ date +%d\ %b\ %Y
+30 Apr 2018
+
+Tech- filename
+$ date +%y%m%d-%H.%M.%S
+180430-09.47.48
+
+Week & Year
+$ date +%U\ %Y
+17 2018
+
+Year & Month Alpha
+$ date +%Y\ %B
+2018 April
+
+Year & Month Numeric
+$ date +%Y\ %m
+2018 04
+
+Year Month Day Numeric
+$ date +%Y\ %m\ %d
+2018 04 30
+
+Slashed
+$ date +%D
+04/30/18
+
+Casual
+$ date +%Y\ %m\ %d\ %A
+2018 04 30 Monday
+
+Convert Epoc date/time into Human-Readable
+$ date -d @1521415551
+Sun, Mar 18, 2018  6:25:51 PM
+
+for log/output-filename
+date +%Y-%m-%d_%H-M
+2018-04-30_09-53-27
+
+for logging
+$ date +%Y-%m-%d_%H:%M
+2018-04-30_09:53:27
+
+

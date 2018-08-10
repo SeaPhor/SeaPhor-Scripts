@@ -1,0 +1,133 @@
+#!/bin/bash
+##
+##    Dice Roller and Counter
+#####################################
+##    Color Enhancement Variables
+#####################################
+#
+    PROGNAME=$(basename $0)
+    RED=`tput setaf 1`
+    YELLOW=`tput setaf 3`
+    CYAN=`tput setaf 6`
+    BOLD=`tput bold`
+    RESET=`tput sgr0`
+#####################################
+usage () {
+	cat <<EOT
+${BOLD}${YELLOW}This requires 2 arguments${CYAN}
+    Number of sides
+    Number of dice${CYAN}
+    To roll 1 d20
+ $PROGNAME 20 1${YELLOW}
+Optional- Use 'r' to re-roll 1s${CYAN}
+ $PROGNAME 6 8 r${BOLD}${YELLOW}
+Optional- Use 's' for attribute stats- top 3 highest rolls
+    and add them together for you, auto 'r' option is default.
+    9 Stat rolls (includes roll for removed 'Comliness')
+    Example- to roll 8 d6's do ${CYAN}
+ $PROGNAME 6 8 s${BOLD}${YELLOW}
+Options- Number of sides${CYAN}
+  100
+   20
+   12
+   10
+    8
+    6
+    4${RESET}
+
+EOT
+}
+[[ $1 ]] || { usage; exit 1; }
+[[ $2 ]] || { usage; exit 1; }
+if [[ $3 == "r" ]]; then 
+	rerollones=true
+elif [[ $3 == "s" ]]; then
+	attrstats=true
+else
+	attrstats=false
+fi
+diesides="$1"
+diecount="$2"
+a=0
+i="$diecount"
+while [ $i -gt 0 ]
+do
+case $diesides in
+	100)
+		target=$(($RANDOM % 100 ++1))
+		;;
+	20)
+		target=$(($RANDOM % 20 ++1))
+		;;
+	12)
+		target=$(($RANDOM % 12 ++1))
+		if $rerollones; then
+			while [[ $target -eq 1 ]]; do
+				echo -e "\t$target"
+				target=$(($RANDOM % 12 ++1))
+			done
+		fi
+		;;
+	10)
+		target=$(($RANDOM % 10 ++1))
+		if $rerollones; then
+			while [[ $target -eq 1 ]]; do
+				echo -e "\t$target"
+				target=$(($RANDOM % 10 ++1))
+			done
+		fi
+		;;
+	8)
+		target=$(($RANDOM % 8 ++1))
+		if $rerollones; then
+			while [[ $target -eq 1 ]]; do
+				echo -e "\t$target"
+				target=$(($RANDOM % 8 ++1))
+			done
+		fi
+		;;
+	6)
+		target=$(($RANDOM % 6 ++1))
+		if $rerollones; then
+			while [[ $target -eq 1 ]]; do
+				echo -e "\t$target"
+				target=$(($RANDOM % 6 ++1))
+			done
+		fi
+		if $attrstats; then
+			statcount=9
+			rollcount=0
+			until [[ $rollcount -eq $statcount ]]; do
+				target=$(($RANDOM % 15 ++4))
+				echo $target
+				rollcount=$(($rollcount ++1))
+			done
+			exit 0
+			#echo $target >> tmp.tmptxt
+
+		fi
+		;;
+	4)
+		target=$(($RANDOM % 4 ++1))
+		if $rerollones; then
+			while [[ $target -eq 1 ]]; do
+				echo -e "\t$target"
+				target=$(($RANDOM % 4 ++1))
+			done
+		fi
+		;;
+	*)
+		usage
+		;;
+esac
+        echo $target
+        i=$[$i-1]
+        a=$[$target+$a]
+done
+    total="${echo} $a"
+    echo "########"
+    printf "# %2s   #\n" ${total}
+    echo "#######$"
+
+exit 0
+
