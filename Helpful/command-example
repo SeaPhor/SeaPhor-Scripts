@@ -1,0 +1,35 @@
+
+Command Structure & Meanings Example/s
+for i in `df -hl -B GB --out=target --output=pcent | grep -v "[fs|run]"  | awk '{print $1}'`; do if [[ "`df -hl -B GB --out=target --output=pcent $i | awk '{print $2}' | cut -d% -f1 | sed 1d`" -ge "50" ]]; then echo -e "\n$i is Over 50%"; df -hl -B GB --out=target --output=pcent $i | sed 1d; else echo -e "\n$i is under 50%"; df -hl -B GB --out=target --output=pcent $i | sed 1d; fi; done
+
+for - 'for loop'
+i (in) - variable-ize the output of the command that follows it (between ` `)
+command-
+- df - report file system disk space usage
+- -h - Human readable
+- -l - Local only
+- -B - Block SIZE (GB - GigaBytes)
+- --out=target - the partition that is being Targeted field
+- --output=pcent - The '%In-Use' field
+- $i - the variable created above
+- grep -v = Ignore lines containing the 'v' value ("[fs|run]")
+- - "[fs|run]" grep Value (ignore) lines containing fs OR run
+- awk '{print $1}' - print only the first field (collumn)
+do - Begin execution part of the for loop
+- if - Begin 'if/then/else' statement
+- - [[ "`....`" - Delare the parameter for the if statement
+- - - Commands same as above
+- = - awk '{print $2}' - print only the second field (collumn)
+- - - cut -d% -f1 - print only first field with delimeter of '%'
+- - - sed 1d - remove the first line in the output
+- - `" - End the if statement declaration
+- - -ge "50" - Operator- Greter-Than OR Equal (50)
+- - ]]; end if criteria parameter
+- then - perform actions if statement is TRUE
+- - echo -e - Use Extended echo
+- - - "\n $i..." - start each new instance of the loop on a new line
+- else - perform actions if statement is FALSE
+- fi - End the 'if/then/else' statement
+done - End the for loop
+
+

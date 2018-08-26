@@ -1,0 +1,17 @@
+Examples-
+
+for i in {1..5}; do echo $i; done | paste -sd+ | bc
+du -s * | awk '{print $1}' | paste -sd+ | bc
+echo 157156/1020 | bc
+echo `du -s * | awk '{print $1}' | paste -sd+ | bc`/1020 | bc
+df | awk '{print $4}' | paste -sd+ | bc
+echo `du -s * | awk '{print $1}' | paste -sd+ | bc`/1020 | bc
+df | awk '{print $4}' |grep -v [Aa-Zz] | paste -sd+ | bc
+echo `df | awk '{print $4}' |grep -v [Aa-Zz] | paste -sd+ | bc`/1020 | bc
+
+##    Show all local non-sysfs partitons and the space Available on them
+> df -hl -B GB --out=target --output=avail | grep -v fs | grep -v run | grep -v dev
+##    Show total disl space availble from all partitions combined
+> echo `df -hl -B GB --out=target --output=avail | grep -v fs | grep -v run | grep -v dev | awk '{print $2}' | sed -e 's/[Aa-Zz]//g' | sed '/^\s*$/d' | paste -sd+ | bc` GB
+385 GB
+
