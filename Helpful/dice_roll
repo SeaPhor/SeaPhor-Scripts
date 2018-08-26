@@ -9,125 +9,164 @@
     RED=`tput setaf 1`
     YELLOW=`tput setaf 3`
     CYAN=`tput setaf 6`
+    LTRED=`tput setaf 9`
+    LTGRN=`tput setaf 10`
+    LTYLLW=`tput setaf 11`
+    LTBLU=`tput setaf 12`
+    LTMAG=`tput setaf 13`
+    LTCYN=`tput setaf 14`
     BOLD=`tput bold`
     RESET=`tput sgr0`
 #####################################
 usage () {
 	cat <<EOT
-${BOLD}${YELLOW}This requires 2 arguments${CYAN}
+
+${BOLD}${YELLOW}This requires a minimum of 2 arguments${CYAN}
     Number of sides
     Number of dice${CYAN}
     To roll 1 d20
- $PROGNAME 20 1${YELLOW}
-Optional- Use 'r' to re-roll 1s${CYAN}
- $PROGNAME 6 8 r${BOLD}${YELLOW}
-Optional- Use 's' for attribute stats- top 3 highest rolls
-    and add them together for you, auto 'r' option is default.
-    9 Stat rolls (includes roll for removed 'Comliness')
-    Example- to roll 8 d6's do ${CYAN}
- $PROGNAME 6 8 s${BOLD}${YELLOW}
-Options- Number of sides${CYAN}
+ $PROGNAME 20 1${BOLD}${YELLOW}
+Options- Number of sides${RESET}${CYAN}
   100
    20
    12
    10
     8
     6
-    4${RESET}
+    4${BOLD}${YELLOW}
+Other Options-
+    $PROGNAME <n-sides n-die> [r|s|b n-bonus|t n-bonus] 
+Optional- Use 'r' to re-roll 1s${CYAN}
+ $PROGNAME 6 8 r${BOLD}${YELLOW}
+Optional- Use 's' for attribute stats- top 3 highest rolls
+    and add them together for you, n-die Stat rolls.
+    Example- to roll 8 d6's do ${CYAN}
+ $PROGNAME 6 8 s${BOLD}${YELLOW}
+Optional- Use 'b' to add a Bonus to each die roll
+    For example, if your damage is 2 d8 and your
+    modifyer is +7 per die roll, then you would
+    use the following${CYAN}
+  $PROGNAME 8 2 b 7${BOLD}${YELLOW}
+    which would be a score of 8-15 per die roll
+Optional- Use 't' to add a Bonus to total score roll
+    For example, if your damage is 2 d8 and your
+    modifyer is +7 per attack, then you would
+    use the following${CYAN}
+  $PROGNAME 8 2 t 7${BOLD}${YELLOW}
+    which would be a score of 2-16 + 7 per attack
+${RESET}
 
 EOT
 }
 [[ $1 ]] || { usage; exit 1; }
 [[ $2 ]] || { usage; exit 1; }
-if [[ $3 == "r" ]]; then 
-	rerollones=true
-elif [[ $3 == "s" ]]; then
-	attrstats=true
-else
-	attrstats=false
-fi
 diesides="$1"
 diecount="$2"
 a=0
 i="$diecount"
+rerollones=false
+attrstats=false
+addbonus="0"
+bonus=false
+addtbonus="0"
+tbonus=false
+if [[ $3 == "r" ]]; then 
+	rerollones=true
+elif [[ $3 == "s" ]]; then
+	attrstats=true
+elif [[ $3 == "b" ]]; then
+	bonus=true
+	[[ $4 ]] && addbonus="$4" || { usage; exit 1; }
+elif [[ $3 == "t" ]]; then
+	tbonus=true
+	[[ $4 ]] && addtbonus="$4" || { usage; exit 1; }
+else
+	rerollones=false
+	attrstats=false
+	bonus=false
+	tbonus=false
+fi
 while [ $i -gt 0 ]
 do
 case $diesides in
 	100)
-		target=$(($RANDOM % 100 ++1))
+		targetb=$(($RANDOM % 100 ++1))
+		target=$(($targetb + $addbonus))
 		;;
 	20)
-		target=$(($RANDOM % 20 ++1))
+		targetb=$(($RANDOM % 20 ++1))
+	        target=$(($targetb + $addbonus))
 		;;
 	12)
-		target=$(($RANDOM % 12 ++1))
+		targetb=$(($RANDOM % 12 ++1))
+	        target=$(($targetb + $addbonus))
 		if $rerollones; then
-			while [[ $target -eq 1 ]]; do
-				echo -e "\t$target"
-				target=$(($RANDOM % 12 ++1))
-			done
+			targetb=$(($RANDOM % 11 ++2))
+	        	target=$(($targetb + $addbonus))
 		fi
 		;;
 	10)
-		target=$(($RANDOM % 10 ++1))
+		targetb=$(($RANDOM % 10 ++1))
+	        target=$(($targetb + $addbonus))
 		if $rerollones; then
-			while [[ $target -eq 1 ]]; do
-				echo -e "\t$target"
-				target=$(($RANDOM % 10 ++1))
-			done
+			targetb=$(($RANDOM % 9 ++2))
+	        	target=$(($targetb + $addbonus))
 		fi
 		;;
 	8)
-		target=$(($RANDOM % 8 ++1))
+		targetb=$(($RANDOM % 8 ++1))
+	        target=$(($targetb + $addbonus))
 		if $rerollones; then
-			while [[ $target -eq 1 ]]; do
-				echo -e "\t$target"
-				target=$(($RANDOM % 8 ++1))
-			done
+			targetb=$(($RANDOM % 7 ++2))
+	        	target=$(($targetb + $addbonus))
 		fi
 		;;
 	6)
-		target=$(($RANDOM % 6 ++1))
+		#target=$(($RANDOM % 6 ++1 + $addbonus))
+		targetb=$(($RANDOM % 6 ++1))
+	        target=$(($targetb + $addbonus))
 		if $rerollones; then
-			while [[ $target -eq 1 ]]; do
-				echo -e "\t$target"
-				target=$(($RANDOM % 6 ++1))
-			done
+			targetb=$(($RANDOM % 5 ++2))
+	        	target=$(($targetb + $addbonus))
 		fi
 		if $attrstats; then
-			statcount=9
+			#statcount=9
+			statcount="${diecount}"
 			rollcount=0
 			until [[ $rollcount -eq $statcount ]]; do
-				target=$(($RANDOM % 15 ++4))
+				targetb=$(($RANDOM % 15 ++4))
+	        		target=$(($targetb + $addbonus))
 				echo $target
 				rollcount=$(($rollcount ++1))
 			done
 			exit 0
-			#echo $target >> tmp.tmptxt
 
 		fi
 		;;
 	4)
-		target=$(($RANDOM % 4 ++1))
+		targetb=$(($RANDOM % 4 ++1))
+	        target=$(($targetb + $addbonus))
 		if $rerollones; then
-			while [[ $target -eq 1 ]]; do
-				echo -e "\t$target"
-				target=$(($RANDOM % 4 ++1))
-			done
+			targetb=$(($RANDOM % 3 ++2))
+	        	target=$(($targetb + $addbonus))
 		fi
 		;;
 	*)
-		usage
+		usage | less
 		;;
 esac
-        echo $target
+#        echo $target
         i=$[$i-1]
         a=$[$target+$a]
+	sumct=
 done
     total="${echo} $a"
-    echo "########"
-    printf "# %2s   #\n" ${total}
-    echo "#######$"
+    if  $tbonus; then
+        total=$[$total+$addtbonus]
+    fi
+    echo "${BOLD}${LTCYN}########"
+    printf "#${LTYLLW} %2s ${LTCYN}  #\n" ${total}
+    echo "########${RESET}"
 
 exit 0
 
