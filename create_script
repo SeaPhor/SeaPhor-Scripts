@@ -1,0 +1,208 @@
+#!/usr/bin/env bash
+#
+#    create_script
+#    Author- Shawn Miller
+###########################################################
+##    This script is designed to create other scripts
+##    pre-populated with standard fields and ready
+##    for writing code.
+##    Requires 1 arguement, a 2nd arguement is optional.
+###########################################################
+##    1. Create another file with the contents of the template
+##    2. Edit the new file with Author and script name
+##    4. Set the executable permisson on the new file
+##    5. On First-Run of This script, request User Input
+##        for Author and PATH
+##    6. Set choice to edit the new file immediately or not
+##    7. Add colors to output
+#
+#####################################################################
+#####                   GNU/GPL Info
+#####################################################################
+#
+gpl_info () {
+    cat <<EOT
+${LTCYN}
+####c4#############################################################################
+###                                                                             ###
+##                      GNU/GPL Info                                             ##
+##        create_script ver-1.1 - Alpha/Beta begun 15 August 2018		 ##
+##        create_script ver-2.1 - Production release 11 Sepember 2018		 ##
+##      Released under GPL v2.0, See www.gnu.org for full license info           ##
+##      Copyright (C) 2015  Shawn Miller, The Wood-Bee Company			 ##
+##              EMAIL- shawn@woodbeeco.com                                       ##
+##                   - seaphor@woodbeeco.com                                     ##
+##  This program is free software; you can redistribute it and/or modify         ##
+##    it under the terms of the GNU General Public License as published by       ##
+##    the Free Software Foundation; either version 2 of the License, or          ##
+##    (at your option) any later version.                                        ##
+##                                                                               ##
+##    This program is distributed in the hope that it will be useful,            ##
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of             ##
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              ##
+##    GNU General Public License for more details.                               ##
+##                                                                               ##
+##    See this complete License at:                                              ##
+##    https://github.com/SeaPhor/SeaPhor-Scripts/blob/master/LICENSE		 ##
+###                                                                             ###
+####w#################################b######################################c#####${RESET}
+EOT
+}
+#
+###########################################################
+##    Script Options/Usage
+###########################################################
+#
+PROGNAME=$(basename $0)
+##    Usage - Options
+opts_use () {
+  cat <<EOT
+  ${YELLOW} ${PROGNAME}${CYAN}-
+    Author- Shawn Miller${YELLOW}
+  Description-${CYAN}
+    This script is designed to create other scripts
+    pre-populated with standard fields and ready
+    for writing code.
+    Requires 1 arguement, a 2nd arguement is optional.${YELLOW}
+  Usage-${CYAN}
+    $PROGNAME newscriptname
+    $PROGNAME help${YELLOW}
+    Optional-${CYAN}
+    $PROGNAME newscriptname edit${YELLOW}
+  Options-${CYAN}
+    help    Prints this dialog and exits${RESET}
+    gpl     Prints the GPL Info and exits${RESET}
+EOT
+}
+#
+###########################################################
+##    Color Variables
+###########################################################
+#
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+YELLOW=`tput setaf 3`
+BLUE=`tput setaf 4`
+CYAN=`tput setaf 6`
+LTRED=`tput setaf 9`
+LTGRN=`tput setaf 10`
+LTYLLW=`tput setaf 11`
+LTBLU=`tput setaf 12`
+LTMAG=`tput setaf 13`
+LTCYN=`tput setaf 14`
+BOLD=`tput bold`
+RESET=`tput sgr0`
+#
+###########################################################
+##    Global Variables and Information Gathering
+###########################################################
+#
+##    Check for arguements
+[[ $1 ]] || { opts_use; echo "${BOLD}${RED}Missing arguement${RESET}"; exit 1; }
+#
+[[ $1 = "help" ]] && { opts_use; exit 1; }
+[[ $1 = "gpl" ]] && { gpl_info; exit 0; }
+[[ $2 = "edit" ]] && EDITNOW=true || EDITNOW=false
+#if [[ $2 = "edit" ]]; then
+#    EDITNOW=true
+#else
+#    EDITNOW=false
+#fi
+PWD=`pwd`
+PROGNAME=$(basename $0)
+SCRPTNAM="$1"
+BINDIR="${HOME}/scripts"
+FILNAM="${BINDIR}/${SCRPTNAM}"
+EDIiTOR="vim"
+AUTHOR="`getent passwd $USER | awk -F: '{print $5}'`"
+TDATE="`date +%a\ %b\ %d\ %Y`"
+if [[ ! -d $BINDIR ]]; then
+    if mkdir "$BINDIR"; then
+        echo "${CYAN}Created ${BINDIR}${RESET}"
+    else
+        echo "${BOLD}${RED}Could not create ${BINDIR}${RESET}"
+        exit 1
+    fi
+fi
+if [[ -e $FILNAM ]]; then
+    echo "${BOLD}${RED}Filename $FILNAM already exists.${RESET}"
+    exit 1
+fi
+if type "$SCRPTNAME" > /dev/null 2>&1; then
+    echo "${BOLD}${RED}There is already a command with the name ${SCRPTNAM}${RESET}"
+    exit 1
+fi
+#
+##   Replace the need for script-template
+script_templt () {
+    cat <<DON
+#!/usr/bin/env bash
+#
+#    $SCRPTNAM
+#    Author- ${AUTHOR}
+#    Creation Date- $TDATE
+###########################################################
+##    First line of script description
+##    Second line of script description
+##    Third line of script description
+###########################################################
+##    First script objective
+##    Second script objective
+##    Third script objective
+###########################################################
+##    Color Variables
+###########################################################
+#
+RED=\`tput setaf 1\`
+GREEN=\`tput setaf 2\`
+YELLOW=\`tput setaf 3\`
+BLUE=\`tput setaf 4\`
+CYAN=\`tput setaf 6\`
+LTRED=\`tput setaf 9\`
+LTGRN=\`tput setaf 10\`
+LTYLLW=\`tput setaf 11\`
+LTBLU=\`tput setaf 12\`
+LTMAG=\`tput setaf 13\`
+LTCYN=\`tput setaf 14\`
+BOLD=\`tput bold\`
+RESET=\`tput sgr0\`
+#
+###########################################################
+##    Script Options/Usage
+###########################################################
+#
+usage () {
+    cat <<EOT
+EOT
+}
+#
+###########################################################
+##    Global Variables and Information Gathering
+###########################################################
+##    Comment 1 - what why
+##    Comment 2 - how
+###########################################################
+##    Environmental Variables and Conditional Logic
+###########################################################
+##    Comment 1 - what why
+##    Comment 2 - how
+###########################################################
+##    Declare Functions
+###########################################################
+##    Comment 1 - what why
+##    Comment 2 - how
+###########################################################
+##    Execution - CleanUp - Exit/Status
+###########################################################
+##    Comment 1 - what why
+##    Comment 2 - how
+##    Exit Cleanly
+exit 0
+DON
+} > $FILNAM
+script_templt
+chmod u+x $FILNAM
+if $EDITNOW; then
+    $EDITOR $FILNAM
+fi
+exit 0
