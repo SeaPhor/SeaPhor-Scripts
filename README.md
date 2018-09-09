@@ -7,7 +7,7 @@
     1. The reason for creating the SOP is to standardize all code written so that it can be efficiently read, understood, modified, and communicated without the need for either excessive time spent deciphering, or re-writing a new code ('re-inventing the wheel').
 
 1. Scope
-    This SOP should be implemented team-wide and was originally intended for BASH scripting, but, is hoped to be applicable to all code written.
+    1. This SOP should be implemented team-wide and was originally intended for BASH scripting, but, is hoped to be applicable to all code written.
     1. Must-Haves-
         1. Valid use-case and need
         1. Clear known objectives
