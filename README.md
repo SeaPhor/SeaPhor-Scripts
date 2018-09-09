@@ -37,7 +37,6 @@
            Usages and Oprions
            EOT
            }```
-
 1. Process
     1. Evaluate the conditions
     1. Take action/s
