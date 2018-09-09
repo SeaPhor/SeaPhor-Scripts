@@ -33,10 +33,10 @@
  -              ```[[ ! $1 || $# -ne 1 ]] && { usage; echo "'$@' Not a valid option"; exit 1; }```
  -               Use inside a function- EXAMPLE-
         ```usage () {
-            cat <<EOT
-          Usages and Oprions
-          EOT
-          }```
+               cat <<EOT
+           Usages and Oprions
+           EOT
+           }```
 
 1. Process
     1. Evaluate the conditions
