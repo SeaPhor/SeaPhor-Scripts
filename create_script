@@ -8,6 +8,7 @@
 ##    for writing code.
 ##    Requires 1 arguement, a 2nd arguement is optional.
 ###########################################################
+##    Completed-
 ##    1. Create another file with the contents of the template
 ##    2. Edit the new file with Author and script name
 ##    4. Set the executable permisson on the new file
@@ -110,6 +111,7 @@ RESET=`tput sgr0`
 #fi
 PWD=`pwd`
 PROGNAME=$(basename $0)
+RDATE="`date +%d\ %b\ %Y`"
 SCRPTNAM="$1"
 BINDIR="${HOME}/scripts"
 FILNAM="${BINDIR}/${SCRPTNAM}"
@@ -135,6 +137,7 @@ fi
 #
 ##   Replace the need for script-template
 script_templt () {
+##    Use 'DON' instead of 'EOT' so that template can use the standard 'EOT'.
     cat <<DON
 #!/usr/bin/env bash
 #
@@ -173,6 +176,12 @@ RESET=\`tput sgr0\`
 #
 usage () {
     cat <<EOT
+Description-
+    Begin Description
+Options-
+    Begin Options
+Usage-
+    Begin Usage
 EOT
 }
 #
@@ -180,6 +189,9 @@ EOT
 ##    Global Variables and Information Gathering
 ###########################################################
 ##    Comment 1 - what why
+PROGNAME=\$(basename \$0)
+PROGVERS="0.0.0-01"
+PROGDATE="$RDATE"
 ##    Comment 2 - how
 ###########################################################
 ##    Environmental Variables and Conditional Logic
@@ -187,7 +199,7 @@ EOT
 ##    Comment 1 - what why
 ##    Comment 2 - how
 ###########################################################
-##    Declare Functions
+##    Declare Functions, Loops, and other statements
 ###########################################################
 ##    Comment 1 - what why
 ##    Comment 2 - how
