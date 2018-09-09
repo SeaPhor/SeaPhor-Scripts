@@ -37,12 +37,7 @@
           Usages and Oprions
           EOT
         }```
-...
-usage () {
-    cat <<EOT
-    Usage and Options
-EOT
-...
+
 1. Process
     1. Evaluate the conditions
     1. Take action/s
