@@ -1,5 +1,5 @@
 1. Objective Effective Code Writing and Execution
-    For text version, see "Code-SOP..txt"
+>    For text version, see "Code-SOP..txt"
 1. Synopsis
     1. The purpose of this document is to establish a "SOP" (Standard Operating Procedure) for creating and modifying code.
     1. The standards outlined here are to establish effective, efficient, common, readable, trackable, and accountable code-writing methodologies so that all code written by any member can be read, understood, and explained by any other member.
