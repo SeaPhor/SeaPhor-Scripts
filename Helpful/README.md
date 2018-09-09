@@ -31,11 +31,11 @@
             1. Standard- A conditional (Arithmatic) Expression check for the correct number of arguements passed and will print the usage message if '-ne'.
                 Example- `<[[ ! $1 || $# -ne 1 ]] && { usage; echo "'$@' Not a valid option"; exit 1; }>`
                 Use inside a function- EXAMPLE-
-        `<usage () {
+        ```usage () {
             cat <<EOT
           Usages and Oprions
           EOT
-        }>`
+        }```
 
 1. Process
     1. Evaluate the conditions
