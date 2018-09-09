@@ -71,5 +71,5 @@
         1. Use 'elif' statements instead of nested if-statements where possible.
         1. Use the Conditional structure where possible- Example
         -      [[ -e ${HOME}/.ssh ]] || { echo "No .ssh directory in ${HOME}"; exit 1; }
-        1. Always use exit statements
+            1. Always use exit statements
     1. Loops (for, while, until)
