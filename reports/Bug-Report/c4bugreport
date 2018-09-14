@@ -37,9 +37,9 @@ $(tput sgr 0)\n"
 ###	Define Standard Variables		###
 ###################################################
 #	Global Variables
-        JVER="Bug-Report-1.0.01-4"
-        PCHLVL="1.0.01-4"
-        PCHDAT="19 November, 2017"
+        JVER="Bug-Report-1.0.2-01"
+        PCHLVL="1.0.2-01"
+        PCHDAT="12 September, 2018"
 	PROGNAME=$(basename $0)
 	CUSTOM=false
 	USAGE="\n\n$(tput setaf 3) $PROGNAME -[OPTION] <filename>.csv$(tput sgr 0) \n"
@@ -491,8 +491,10 @@ exit $?
 ##@		Fixed typo in Description
 ##@		Added newlines to all requests for input that cause the input to be on same 
 ##@		-line as the request
-##@	Patch-Level-1.0.01-4  "19 November, 2017"
-##@		
-##@		
-##@		
-##@		
+##@    Patch-Level-1.0.2-01  "12 September, 2018"
+##@        Changed Versioning syntax and style
+##@        Changed indents going forward to be 4 spaces instead of TABs
+##@        Changed name to c4bugreport
+##@
+##@
+##@
