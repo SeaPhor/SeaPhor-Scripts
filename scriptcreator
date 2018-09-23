@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-#    create_script
+#    scriptcreator
 #    Author- Shawn Miller
 ###########################################################
 ##    This script is designed to create other scripts
@@ -29,6 +29,7 @@ ${LTCYN}
 ##                      GNU/GPL Info                                             ##
 ##        create_script ver-1.1 - Alpha/Beta begun 15 August 2018		 ##
 ##        create_script ver-2.1 - Production release 11 Sepember 2018		 ##
+##        Forked to scriptcreator ver-2.1 - 16 Sepember 2018			 ##
 ##      Released under GPL v2.0, See www.gnu.org for full license info           ##
 ##      Copyright (C) 2015  Shawn Miller, The Wood-Bee Company			 ##
 ##              EMAIL- shawn@woodbeeco.com                                       ##
@@ -71,7 +72,8 @@ opts_use () {
     Optional-${CYAN}
     $PROGNAME newscriptname edit${YELLOW}
   Options-${CYAN}
-    help    Prints this dialog and exits${RESET}
+    help    Prints this dialog and exits
+    vers    Prints the release version and date of release and exits
     gpl     Prints the GPL Info and exits${RESET}
 EOT
 }
@@ -100,17 +102,15 @@ RESET=`tput sgr0`
 #
 ##    Check for arguements
 [[ $1 ]] || { opts_use; echo "${BOLD}${RED}Missing arguement${RESET}"; exit 1; }
-#
 [[ $1 = "help" ]] && { opts_use; exit 1; }
+[[ $1 = "vers" ]] && { echo "${PROGNAME} - ${PROGVERS} released ${REVDATE}"; exit 1; }
 [[ $1 = "gpl" ]] && { gpl_info; exit 0; }
 [[ $2 = "edit" ]] && EDITNOW=true || EDITNOW=false
-#if [[ $2 = "edit" ]]; then
-#    EDITNOW=true
-#else
-#    EDITNOW=false
-#fi
 PWD=`pwd`
 PROGNAME=$(basename $0)
+PROGVERS="1.0.1-01"
+REVDATE="16 Sep 2018"
+PROGDATE="$RDATE"
 RDATE="`date +%d\ %b\ %Y`"
 SCRPTNAM="$1"
 BINDIR="${HOME}/scripts"
