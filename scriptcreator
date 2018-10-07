@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #
 #    scriptcreator
 #    Author- Shawn Miller
@@ -17,9 +17,9 @@
 ##    6. Set choice to edit the new file immediately or not
 ##    7. Add colors to output
 #
-#####################################################################
-#####                   GNU/GPL Info
-#####################################################################
+###########################################################
+#####    GNU_GPL
+###########################################################
 #
 gpl_info () {
     cat <<EOT
@@ -47,39 +47,58 @@ ${LTCYN}
 ##    See this complete License at:                                              ##
 ##    https://github.com/SeaPhor/SeaPhor-Scripts/blob/master/LICENSE		 ##
 ###                                                                             ###
-####w#################################b######################################c#####${RESET}
+####w#################################b######################################c####4
+${RESET}
 EOT
 }
 #
 ###########################################################
-##    Script Options/Usage
+####    Global Variables
 ###########################################################
 #
 PROGNAME=$(basename $0)
+PROGVERS="1.0.1-02"
+REVDATE="07 Oct 2018"
+#
+###########################################################
+####    Script Options/Usage
+###########################################################
+#
 ##    Usage - Options
 opts_use () {
   cat <<EOT
-  ${YELLOW} ${PROGNAME}${CYAN}-
-    Author- Shawn Miller${YELLOW}
-  Description-${CYAN}
+
+  ${BOLD}${LTCYN} ${PROGNAME}${RESET}${LTCYN}-
+    Author-${CYAN} Shawn Miller${BOLD}${YELLOW}
+  Description-${RESET}${CYAN}
     This script is designed to create other scripts
     pre-populated with standard fields and ready
     for writing code.
-    Requires 1 arguement, a 2nd arguement is optional.${YELLOW}
-  Usage-${CYAN}
-    $PROGNAME newscriptname
-    $PROGNAME help${YELLOW}
-    Optional-${CYAN}
-    $PROGNAME newscriptname edit${YELLOW}
-  Options-${CYAN}
-    help    Prints this dialog and exits
-    vers    Prints the release version and date of release and exits
-    gpl     Prints the GPL Info and exits${RESET}
+    Requires 1 arguement, a 2nd arguement is optional.${BOLD}${YELLOW}
+  Usage-${LTCYN}
+    ${PROGNAME} [<newscriptname>|OPTION] [OPTIONAL]${GREEN}
+    ${PROGNAME} <newscriptname>
+    ${PROGNAME} help${YELLOW}
+    Optional-${GREEN}
+    ${PROGNAME} <newscriptname> edit${YELLOW}
+  Options-${RESET}${LTCYN}
+    <newscriptname>${CYAN}    What you want your script to be named${LTCYN}
+    help${CYAN}               Prints this dialog and exits${LTCYN}
+    vers${CYAN}               Prints the release version and date of release and exits${LTCYN}
+    gpl${CYAN}                Prints the GPL Info and exits${LTCYN}
+      edit${CYAN}             If \$EDITOR is set, if not then it will use vim${BOLD}${YELLOW}
+  Optional-${RESET}${CYAN}
+    If you want to add a GNU/GPL to your new script, I suggest you create/copy-edit
+    one and place it in your "snippets" directory. Then edit the script you just
+    created with vim, I named mine "~/snippets/gnugpl". In command mode move the 
+    cursor to the line above where you want to insert the GPL and type this:${LTCYN}
+    :r ~/snippets/gnugpl${CYAN} and hit ENTER.
+${RESET}
 EOT
 }
 #
 ###########################################################
-##    Color Variables
+####    Color Variables
 ###########################################################
 #
 RED=`tput setaf 1`
@@ -97,81 +116,102 @@ BOLD=`tput bold`
 RESET=`tput sgr0`
 #
 ###########################################################
-##    Global Variables and Information Gathering
+####    Environment Variables and Information Gathering
 ###########################################################
 #
 ##    Check for arguements
 [[ $1 ]] || { opts_use; echo "${BOLD}${RED}Missing arguement${RESET}"; exit 1; }
-[[ $1 = "help" ]] && { opts_use; exit 1; }
+[[ $@ =~ "help" ]] && { opts_use; exit 1; }
 [[ $1 = "vers" ]] && { echo "${PROGNAME} - ${PROGVERS} released ${REVDATE}"; exit 1; }
 [[ $1 = "gpl" ]] && { gpl_info; exit 0; }
-[[ $2 = "edit" ]] && EDITNOW=true || EDITNOW=false
+[[ $@ =~ "edit" ]] && EDITNOW=true || EDITNOW=false
 PWD=`pwd`
-PROGNAME=$(basename $0)
-PROGVERS="1.0.1-01"
-REVDATE="16 Sep 2018"
-PROGDATE="$RDATE"
+PROGDATE="${RDATE}"
 RDATE="`date +%d\ %b\ %Y`"
 SCRPTNAM="$1"
 BINDIR="${HOME}/scripts"
 FILNAM="${BINDIR}/${SCRPTNAM}"
-EDIiTOR="vim"
-AUTHOR="`getent passwd $USER | awk -F: '{print $5}'`"
+[[ $EDITOR ]] || EDITOR="vim"
+AUTHOR="`getent passwd ${USER} | awk -F: '{print $5}'`"
 TDATE="`date +%a\ %b\ %d\ %Y`"
-if [[ ! -d $BINDIR ]]; then
-    if mkdir "$BINDIR"; then
+if [[ ! -d ${BINDIR} ]]; then
+    if mkdir "${BINDIR}"; then
         echo "${CYAN}Created ${BINDIR}${RESET}"
     else
         echo "${BOLD}${RED}Could not create ${BINDIR}${RESET}"
         exit 1
     fi
 fi
-if [[ -e $FILNAM ]]; then
-    echo "${BOLD}${RED}Filename $FILNAM already exists.${RESET}"
+if [[ -e ${FILNAM} ]]; then
+    echo "${BOLD}${RED}Filename ${FILNAM} already exists.${RESET}"
     exit 1
 fi
-if type "$SCRPTNAME" > /dev/null 2>&1; then
+if type "${SCRPTNAME}" > /dev/null 2>&1; then
     echo "${BOLD}${RED}There is already a command with the name ${SCRPTNAM}${RESET}"
     exit 1
 fi
 #
-##   Replace the need for script-template
+###########################################################
+####    Declare Functions, Loops, and other statements
+###########################################################
+#
 script_templt () {
 ##    Use 'DON' instead of 'EOT' so that template can use the standard 'EOT'.
     cat <<DON
-#!/usr/bin/env bash
+#!/bin/bash
 #
-#    $SCRPTNAM
+#    ${SCRPTNAM}
 #    Author- ${AUTHOR}
-#    Creation Date- $TDATE
+#    Creation Date- ${TDATE}
 ###########################################################
 ##    First line of script description
 ##    Second line of script description
-##    Third line of script description
+####    Third line of script description
 ###########################################################
 ##    First script objective
 ##    Second script objective
 ##    Third script objective
-###########################################################
-##    Color Variables
-###########################################################
-#
-RED=\`tput setaf 1\`
-GREEN=\`tput setaf 2\`
-YELLOW=\`tput setaf 3\`
-BLUE=\`tput setaf 4\`
-CYAN=\`tput setaf 6\`
-LTRED=\`tput setaf 9\`
-LTGRN=\`tput setaf 10\`
-LTYLLW=\`tput setaf 11\`
-LTBLU=\`tput setaf 12\`
-LTMAG=\`tput setaf 13\`
-LTCYN=\`tput setaf 14\`
-BOLD=\`tput bold\`
-RESET=\`tput sgr0\`
 #
 ###########################################################
-##    Script Options/Usage
+####    Global Variables
+###########################################################
+#
+PROGNAME=\$(basename \$0)
+PROGVERS="0.0.0-01"
+PROGDATE="${RDATE}"
+#
+###########################################
+####    Declare Color Variables
+###########################################
+#
+[[ \$@ =~ "nocolor" ]] && NOCOLR=true || NOCOLR=false
+#
+if ! \$NOCOLR; then
+    RED="\$(tput setaf 1)"
+    GRN="\$(tput setaf 2)"
+    YLLW="\$(tput setaf 3)"
+    BLU="\$(tput setaf 4)"
+    MAG="\$(tput setaf 5)"
+    CYN="\$(tput setaf 6)"
+    LTRED="\$(tput setaf 9)"
+    LTGRN="\$(tput setaf 10)"
+    LTYLLW="\$(tput setaf 11)"
+    LTBLU="\$(tput setaf 12)"
+    LTMAG="\$(tput setaf 13)"
+    LTCYN="\$(tput setaf 14)"
+    BGBLU="\$(tput setab 4)"
+    BGYLLW="\$(tput setab 3)"
+    BGLYLLW="\$(tput setab 11)"
+    ULINE="\$(tput smul)"
+    NULINE="\$(tput rmul)"
+    SOMODE="\$(tput smso)"
+    NSOMODE="\$(tput rmso)"
+    BOLD="\$(tput bold)"
+    RESET="\$(tput sgr0)"
+fi
+#
+###########################################################
+####    Script Options/Usage
 ###########################################################
 #
 usage () {
@@ -184,37 +224,34 @@ Usage-
     Begin Usage
 EOT
 }
-#
 ###########################################################
-##    Global Variables and Information Gathering
-###########################################################
-##    Comment 1 - what why
-PROGNAME=\$(basename \$0)
-PROGVERS="0.0.0-01"
-PROGDATE="$RDATE"
-##    Comment 2 - how
-###########################################################
-##    Environmental Variables and Conditional Logic
+####    Env Variables, Conditional Logic, Information Gathering
 ###########################################################
 ##    Comment 1 - what why
 ##    Comment 2 - how
 ###########################################################
-##    Declare Functions, Loops, and other statements
+####    Declare Functions, Loops, and other statements
 ###########################################################
 ##    Comment 1 - what why
 ##    Comment 2 - how
 ###########################################################
-##    Execution - CleanUp - Exit/Status
+####    Execution - CleanUp - Exit/Status
 ###########################################################
 ##    Comment 1 - what why
 ##    Comment 2 - how
 ##    Exit Cleanly
 exit 0
 DON
-} > $FILNAM
+} > ${FILNAM}
+#
+###########################################################
+####    Execution - CleanUp - Exit/Status
+###########################################################
+#
 script_templt
-chmod u+x $FILNAM
-if $EDITNOW; then
-    $EDITOR $FILNAM
+chmod u+x ${FILNAM}
+if ${EDITNOW}; then
+    ${EDITOR} ${FILNAM}
 fi
+##    Exit Cleanly
 exit 0
