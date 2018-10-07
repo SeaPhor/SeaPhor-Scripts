@@ -57,7 +57,7 @@ EOT
 ###########################################################
 #
 PROGNAME=$(basename $0)
-PROGVERS="1.0.1-02"
+PROGVERS="1.0.1-03"
 REVDATE="07 Oct 2018"
 #
 ###########################################################
@@ -68,31 +68,32 @@ REVDATE="07 Oct 2018"
 opts_use () {
   cat <<EOT
 
-  ${BOLD}${LTCYN} ${PROGNAME}${RESET}${LTCYN}-
-    Author-${CYAN} Shawn Miller${BOLD}${YELLOW}
-  Description-${RESET}${CYAN}
+  ${BOLD}${LTCYN} ${PROGNAME}${RESET}${LTYLLW}-
+    Author-${LTCYN} Shawn Miller${BOLD}${YELLOW}
+  Description-${RESET}${LTYLLW}
     This script is designed to create other scripts
     pre-populated with standard fields and ready
     for writing code.
     Requires 1 arguement, a 2nd arguement is optional.${BOLD}${YELLOW}
-  Usage-${LTCYN}
-    ${PROGNAME} [<newscriptname>|OPTION] [OPTIONAL]${GREEN}
-    ${PROGNAME} <newscriptname>
-    ${PROGNAME} help${YELLOW}
-    Optional-${GREEN}
-    ${PROGNAME} <newscriptname> edit${YELLOW}
+  Usage-${RESET}${LTCYN}
+    ${PROGNAME} [<scriptname>|OPTION] [OPTIONAL]${BOLD}${GREEN}
+    ${PROGNAME} ${LTCYN}<${GREEN}scriptname${LTCYN}>${GREEN}
+    ${PROGNAME} help${RESET}${LTYLLW}
+    Optional-${BOLD}${GREEN}
+    ${PROGNAME} ${LTCYN}<${GREEN}scriptname${LTCYN}>${GREEN} edit${YELLOW}
   Options-${RESET}${LTCYN}
-    <newscriptname>${CYAN}    What you want your script to be named${LTCYN}
-    help${CYAN}               Prints this dialog and exits${LTCYN}
-    vers${CYAN}               Prints the release version and date of release and exits${LTCYN}
-    gpl${CYAN}                Prints the GPL Info and exits${LTCYN}
-      edit${CYAN}             If \$EDITOR is set, if not then it will use vim${BOLD}${YELLOW}
-  Optional-${RESET}${CYAN}
+    <scriptname>${LTYLLW}    What you want your script to be named${LTCYN}
+    help${LTYLLW}            Prints this dialog and exits${LTCYN}
+    vers${LTYLLW}            Prints the release version and date of release and exits${LTCYN}
+    gpl${LTYLLW}             Prints the GPL Info and exits${BOLD}${YELLOW}
+  Optional-${RESET}${LTCYN}
+    edit${LTYLLW}            If${BOLD}${LTCYN} \$EDITOR${RESET}${LTYLLW} is set, otherwise it will open your script with vim${BOLD}${YELLOW}
+  Adding GPL to your script-${RESET}${LTMAG} (Run "${LTCYN}${PROGNAME} gpl${LTMAG}" to see mine)${LTYLLW}
     If you want to add a GNU/GPL to your new script, I suggest you create/copy-edit
     one and place it in your "snippets" directory. Then edit the script you just
     created with vim, I named mine "~/snippets/gnugpl". In command mode move the 
     cursor to the line above where you want to insert the GPL and type this:${LTCYN}
-    :r ~/snippets/gnugpl${CYAN} and hit ENTER.
+    :r ~/snippets/gnugpl${LTYLLW} and hit ENTER.
 ${RESET}
 EOT
 }
