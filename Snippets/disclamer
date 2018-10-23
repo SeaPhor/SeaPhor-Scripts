@@ -1,0 +1,177 @@
+#!/bin/bash
+#
+#####################################################################
+#####	Setting color variables
+#####################################################################
+#
+BLACK=`tput setaf 0`
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+YELLOW=`tput setaf 3`
+BLUE=`tput setaf 4`
+MAGENTA=`tput setaf 5`
+CYAN=`tput setaf 6`
+WHITE=`tput setaf 7`
+LTBLK=`tput setaf 8`
+LTRED=`tput setaf 9`
+LTGRN=`tput setaf 10`   
+LTYLLW=`tput setaf 11`   
+LTBLU=`tput setaf 12`   
+LTMAG=`tput setaf 13`   
+LTCYN=`tput setaf 14`   
+LTWHT=`tput setaf 15`   
+ULINE=`tput smul`
+NULINE=`tput rmul`
+BGBLU=`tput setab 4`
+BGYLLW=`tput setab 3`
+BGLYLLW=`tput setab 11`
+BOLD=`tput bold`
+RESET=`tput sgr0`
+#
+#####################################################################
+#####	Disclaimer Statement
+#####################################################################
+#
+dis_claimer () {
+clear
+printf "${LTRED}
+\n\t\t\t\t\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t\t\t\t\t\t\t=\tLet Me Be Perfectly Clear       =
+\t\t\t\t\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+${RESET}"
+sleep 1
+clear
+printf "${LTRED}
+\n\t\t\t\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t\t\t\t\t\t=\tLet Me Be Perfectly Clear       =
+\t\t\t\t\t\t=\tI do NOT claim to be a coder    =
+\t\t\t\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+${RESET}"
+sleep 2
+clear
+printf "${LTRED}
+\n\t\t\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t\t\t\t\t=\tLet Me Be Perfectly Clear       =
+\t\t\t\t\t=\tI do NOT claim to be a coder    =
+\t\t\t\t\t=\tI know my code is UGLY and      =
+\t\t\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+${RESET}"
+sleep 2
+clear
+printf "${LTRED}
+\n\t\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t\t\t\t=\tLet Me Be Perfectly Clear       =
+\t\t\t\t=\tI do NOT claim to be a coder    =
+\t\t\t\t=\tI know my code is UGLY and      =
+\t\t\t\t=\tSloppy, BUT, it WORKS as        =
+\t\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+${RESET}"
+sleep 2
+clear
+printf "${LTRED}
+\n\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t\t\t=\tLet Me Be Perfectly Clear       =
+\t\t\t=\tI do NOT claim to be a coder    =
+\t\t\t=\tI know my code is UGLY and      =
+\t\t\t=\tSloppy, BUT, it WORKS as        =
+\t\t\t=\tIntended! I know most of you    =
+\t\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+${RESET}"
+sleep 2
+clear
+printf "${LTRED}
+\n\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t\t=\tLet Me Be Perfectly Clear       =
+\t\t=\tI do NOT claim to be a coder    =
+\t\t=\tI know my code is UGLY and      =
+\t\t=\tSloppy, BUT, it WORKS as        =
+\t\t=\tIntended! I know most of you    =
+\t\t=\tThat examine it could write     =
+\t\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+${RESET}"
+sleep 2
+clear
+printf "${LTRED}
+\n\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t=\tLet Me Be Perfectly Clear       =
+\t=\tI do NOT claim to be a coder    =
+\t=\tI know my code is UGLY and      =
+\t=\tSloppy, BUT, it WORKS as        =
+\t=\tIntended! I know most of you    =
+\t=\tThat examine it could write     =
+\t=\tIt better and more efficient.   =
+\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+${RESET}"
+sleep 2
+clear
+printf "
+\n\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t=\tLet Me Be Perfectly Clear       =
+\t=\tI do NOT claim to be a coder    =
+\t=\tI know my code is UGLY and      =
+\t=\tSloppy, BUT, it WORKS as        =
+\t=\tIntended! I know most of you    =
+\t=\tThat examine it could write     =
+\t=\tIt better and more efficient.   =
+\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+"
+sleep .5
+clear
+sleep .5
+printf "
+\n\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t=\tLet Me Be Perfectly Clear       =
+\t=\tI do NOT claim to be a coder    =
+\t=\tI know my code is UGLY and      =
+\t=\tSloppy, BUT, it WORKS as        =
+\t=\tIntended! I know most of you    =
+\t=\tThat examine it could write     =
+\t=\tIt better and more efficient.   =
+\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+"
+sleep .5
+clear
+sleep .5
+printf "
+\n\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t=\tLet Me Be Perfectly Clear       =
+\t=\tI do NOT claim to be a coder    =
+\t=\tI know my code is UGLY and      =
+\t=\tSloppy, BUT, it WORKS as        =
+\t=\tIntended! I know most of you    =
+\t=\tThat examine it could write     =
+\t=\tIt better and more efficient.   =
+\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+"
+sleep .5
+clear
+sleep .5
+printf "
+\n\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t=\tLet Me Be Perfectly Clear       =
+\t=\tI do NOT claim to be a coder    =
+\t=\tI know my code is UGLY and      =
+\t=\tSloppy, BUT, it WORKS as        =
+\t=\tIntended! I know most of you    =
+\t=\tThat examine it could write     =
+\t=\tIt better and more efficient.   =
+\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+"
+sleep .5
+clear
+sleep .5
+printf "${LTCYN}
+\n\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\t=\tLet Me Be Perfectly Clear       =
+\t=\tI do NOT claim to be a coder    =
+\t=\tI know my code is UGLY and      =
+\t=\tSloppy, BUT, it WORKS as        =
+\t=\tIntended! I know most of you    =
+\t=\tThat examine it could write     =
+\t=\tIt better and more efficient.   =
+\t=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n
+${RESET}"
+sleep 5
+}
+dis_claimer
+exit 0
