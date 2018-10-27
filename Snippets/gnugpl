@@ -1,0 +1,37 @@
+#
+#####################################################################
+####                   GNU/GPL LICENSE Info
+#####################################################################
+#
+gpl_info () {
+    cat <<EOT
+${LTCYN}
+####c4#############################################################################
+###                                                                             ###
+##                      GNU/GPL Info                                             ##
+##      $0 <Original Release/Version>-0.0.0-01 - <Date>	                         ##
+##      Released under GPL v2.0, See www.gnu.org for full license info           ##
+##      Copyright (C) <Year>  <Author>, <Company>        			 ##
+##              EMAIL<1>-      							 ##
+##              <EMAIL2>-                                     			 ##
+##  This program is free software; you can redistribute it and/or modify         ##
+##    it under the terms of the GNU General Public License as published by       ##
+##    the Free Software Foundation; either version 2 of the License, or          ##
+##    (at your option) any later version.                                        ##
+##                                                                               ##
+##    This program is distributed in the hope that it will be useful,            ##
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of             ##
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              ##
+##    GNU General Public License for more details.                               ##
+##                                                                               ##
+##    <Add any forking or other changes/exchanges here>                          ##
+##    See this complete License at:                                              ##
+##    <Add link to full GPL here>         					 ##
+###                                                                             ###
+####w#################################b######################################c#####${RESET}
+EOT
+}
+#
+####    For full GNU/GPL see the following:
+# https://github.com/SeaPhor/SeaPhor-Scripts/blob/master/LICENSE
+#
