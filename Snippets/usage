@@ -1,0 +1,22 @@
+#
+##    Usage [snippet]
+##    Author: Shawn Miller
+##    Date: 26 October 2018
+#
+###############################
+####    Usage - Options    ####
+###############################
+#
+usage () {
+    cat <<EOT
+${BOLD}${YLLW}
+Description-${RESET}${YLLW}
+    Begin Description${BOLD}
+Options-${RESET}${YLLW}
+    Begin Options${BOLD}
+Usage-${RESET}${YLLW}
+    Begin Usage
+${RESET}
+EOT
+}
+#

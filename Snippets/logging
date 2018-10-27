@@ -1,0 +1,49 @@
+#
+#######################
+####    Logging    ####
+#######################
+#
+##    Logging [snippet]
+##    Author: Shawn Miller
+##    Date: 26 October 2018
+#
+####    Static Logging Variables- [Change these values]
+#
+logloc=/tmp
+declare -i tarkeep=5
+declare -i tarsize=6000
+####    -END of Static Logging Variables
+#
+####    Global Logging Variables- [Do NOT Change these values]
+#
+logdesc=${PROGNAME}
+ldate=$(date +%Y-%m-%d_%H-%M)
+logfil=${logdesc}.log
+logdir=${logloc}/${logdesc}-logs
+scriptlog=${logdir}${logfil}
+tarmax=$(du -s ${scriptlog} | awk '{print $1}')
+tarname=${logfil}-${ldate}.tar.gz
+declare -i tarcount=$(ls ${scriptlog}-* | wc -l)
+[[ ${tarmax} -ge ${tarsize} ]] && tardo=true || tardo=false
+#[[ ${tarcount} -ge ${tarkeep} ]] && tarrot=true || tarrot=false
+taroldst=$(ls -1rt ${scriptlog}-* | head -n 1)
+#
+####    Prep
+#
+[[ -d ${logdir} ]] || mkdir ${logdir}
+[[ -e ${scriptlog} ]] || touch ${scriptlog}
+#
+####    Cleanup, Compress, and Rotate
+#
+[[ ${tardo} ]] && { tar -czvf ${logdir}/${tarname} -C ${logdir}/ ${logfil}; > ${scriptlog}; }
+#if ${tarrot}; then 
+    while [[ ${tarcount} -ge ${tarkeep} ]]; do
+ #   while ${tarrot}; do
+        rm -f ${taroldst}
+    done
+#fi
+
+####    From CG
+# exec 1> >(exec logger -s -t ${0##*/}) 2>&1
+# set -x
+#
