@@ -1,0 +1,28 @@
+####    LOGGING Data
+#
+####    Mutable Variables
+declare -i tarkeep=5
+declare -i tarsize=10
+logloc=/tmp
+####    Non-Mutable Variables
+ldate="$(date +%Y-%m-%d_%H-%M-%S)"
+logdesc=${PROGNAME}
+logfil=${logdesc}.log
+logdir=${logloc}/${logdesc}-logs
+[[ -d ${logdir} ]] || mkdir ${logdir}
+scriptlog=${logdir}/${logfil}
+[[ -e ${scriptlog} ]] || touch ${scriptlog}
+tarmax=$(du -s ${scriptlog} | awk '{print $1}')
+tarname=${logfil}-${ldate}.tar.gz
+declare -i tarcount=$(ls ${logdir}/${logfil}-* | wc -l)
+[[ ${tarmax} -ge ${tarsize} ]] && tardo=true || tardo=false
+taroldst=$(ls -1rt ${scriptlog}-* | head -n 1)
+####    Execution & Rotation
+if ${tardo}; then
+    tar -czvf ${logdir}/${tarname} -C ${logdir}/ ${logfil}
+    > ${scriptlog}
+fi
+while [[ ${tarcount} -ge ${tarkeep} ]]; do
+    rm -f ${taroldst}
+done
+#
