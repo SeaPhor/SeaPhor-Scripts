@@ -10,8 +10,10 @@ drawline () {
 }
 [[ ! $1 ]] && exit 1
 declare -i len="${#1} +16"
+echo "#"
 drawline len
 printf "####    %s    ####\n" "$1"
 drawline len
+echo "#"
 exit 0
 

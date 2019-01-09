@@ -69,25 +69,25 @@ opts_use () {
   cat <<EOT
 
   ${BOLD}${LTCYN} ${PROGNAME}${RESET}${LTYLLW}-
-    Author-${LTCYN} Shawn Miller${BOLD}${YELLOW}
+    Author-${LTCYN} Shawn Miller${BOLD}${YLLW}
   Description-${RESET}${LTYLLW}
     This script is designed to create other scripts
     pre-populated with standard fields and ready
     for writing code.
-    Requires 1 arguement, a 2nd arguement is optional.${BOLD}${YELLOW}
+    Requires 1 arguement, a 2nd arguement is optional.${BOLD}${YLLW}
   Usage-${RESET}${LTCYN}
-    ${PROGNAME} [<scriptname>|OPTION] [OPTIONAL]${BOLD}${GREEN}
-    ${PROGNAME} ${LTCYN}<${GREEN}scriptname${LTCYN}>${GREEN}
+    ${PROGNAME} [<scriptname>|OPTION] [OPTIONAL]${BOLD}${GRN}
+    ${PROGNAME} ${LTCYN}<${GRN}scriptname${LTCYN}>${GRN}
     ${PROGNAME} help${RESET}${LTYLLW}
-    Optional-${BOLD}${GREEN}
-    ${PROGNAME} ${LTCYN}<${GREEN}scriptname${LTCYN}>${GREEN} edit${YELLOW}
+    Optional-${BOLD}${GRN}
+    ${PROGNAME} ${LTCYN}<${GRN}scriptname${LTCYN}>${GRN} edit${YLLW}
   Options-${RESET}${LTCYN}
     <scriptname>${LTYLLW}    What you want your script to be named${LTCYN}
     help${LTYLLW}            Prints this dialog and exits${LTCYN}
     vers${LTYLLW}            Prints the release version and date of release and exits${LTCYN}
-    gpl${LTYLLW}             Prints the GPL Info and exits${BOLD}${YELLOW}
+    gpl${LTYLLW}             Prints the GPL Info and exits${BOLD}${YLLW}
   Optional-${RESET}${LTCYN}
-    edit${LTYLLW}            If${BOLD}${LTCYN} \$EDITOR${RESET}${LTYLLW} is set, otherwise it will open your script with vim${BOLD}${YELLOW}
+    edit${LTYLLW}            If${BOLD}${LTCYN} \$EDITOR${RESET}${LTYLLW} is set, otherwise it will open your script with vim${BOLD}${YLLW}
   Adding GPL to your script-${RESET}${LTMAG} (Run "${LTCYN}${PROGNAME} gpl${LTMAG}" to see mine)${LTYLLW}
     If you want to add a GNU/GPL to your new script, I suggest you create/copy-edit
     one and place it in your "snippets" directory. Then edit the script you just
@@ -98,23 +98,44 @@ ${RESET}
 EOT
 }
 #
-###########################################################
-####    Color Variables
-###########################################################
+#######################################
+####    Declare Color Variables    ####
+#######################################
 #
-RED=`tput setaf 1`
-GREEN=`tput setaf 2`
-YELLOW=`tput setaf 3`
-BLUE=`tput setaf 4`
-CYAN=`tput setaf 6`
-LTRED=`tput setaf 9`
-LTGRN=`tput setaf 10`
-LTYLLW=`tput setaf 11`
-LTBLU=`tput setaf 12`
-LTMAG=`tput setaf 13`
-LTCYN=`tput setaf 14`
-BOLD=`tput bold`
-RESET=`tput sgr0`
+[[ $@ =~ "nocolor" ]] && COLR=false || COLR=true
+#
+if $COLR; then
+RED="$(tput setaf 1)"
+GRN="$(tput setaf 2)"
+YLLW="$(tput setaf 3)"
+BLU="$(tput setaf 4)"
+MAG="$(tput setaf 5)"
+CYN="$(tput setaf 6)"
+LTRED="$(tput setaf 9)"
+LTGRN="$(tput setaf 10)"
+LTYLLW="$(tput setaf 11)"
+LTBLU="$(tput setaf 12)"
+LTMAG="$(tput setaf 13)"
+LTCYN="$(tput setaf 14)"
+#
+BLRED=${BOLD}${LTRED}
+BLYLW=${BOLD}${LTYLLW}
+BYLW=${BOLD}${YLLW}
+BLCYN=${BOLD}${LTCYN}
+BCYN=${BOLD}${CYN}
+#
+BGBLU="$(tput setab 4)"
+BGYLLW="$(tput setab 3)"
+BGLYLLW="$(tput setab 11)"
+#
+ULINE="$(tput smul)"
+NULINE="$(tput rmul)"
+SOMODE="$(tput smso)"
+NSOMODE="$(tput rmso)"
+BOLD="$(tput bold)"
+RESET="$(tput sgr0)"
+fi
+#
 #
 ###########################################################
 ####    Environment Variables and Information Gathering
@@ -137,7 +158,7 @@ AUTHOR="`getent passwd ${USER} | awk -F: '{print $5}'`"
 TDATE="`date +%a\ %b\ %d\ %Y`"
 if [[ ! -d ${BINDIR} ]]; then
     if mkdir "${BINDIR}"; then
-        echo "${CYAN}Created ${BINDIR}${RESET}"
+        echo "${CYN}Created ${BINDIR}${RESET}"
     else
         echo "${BOLD}${RED}Could not create ${BINDIR}${RESET}"
         exit 1
