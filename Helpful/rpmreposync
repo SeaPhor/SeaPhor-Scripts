@@ -1,0 +1,79 @@
+#!/bin/bash
+#
+#    rpmreposync
+#    Author- WBC
+#    Creation Date- Sun Dec 23 2018
+#
+###########################################################
+##    Color Variables
+###########################################################
+#
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+YELLOW=`tput setaf 3`
+BLUE=`tput setaf 4`
+CYAN=`tput setaf 6`
+LTRED=`tput setaf 9`
+LTGRN=`tput setaf 10`
+LTYLLW=`tput setaf 11`
+LTBLU=`tput setaf 12`
+LTMAG=`tput setaf 13`
+LTCYN=`tput setaf 14`
+BOLD=`tput bold`
+RESET=`tput sgr0`
+#
+###########################################################
+##    Global Variables and Information Gathering
+###########################################################
+##    Comment 1 - what why
+PROGNAME=$(basename $0)
+PROGVERS="0.0.0-01"
+PROGDATE="23 Dec 2018"
+##    Comment 2 - how
+###########################################################
+##    Environmental Variables and Conditional Logic
+###########################################################
+#
+####    LOGGING Data
+#
+logloc=/tmp
+ldate="$(date +%Y-%m-%d_%H-%M-%S)"
+declare -i tarkeep=5
+declare -i tarsize=10
+logdesc=${PROGNAME}
+logfil=${logdesc}.log
+logdir=${logloc}/${logdesc}-logs
+[[ -d ${logdir} ]] || mkdir ${logdir}
+scriptlog=${logdir}/${logfil}
+[[ -e ${scriptlog} ]] || touch ${scriptlog}
+tarmax=$(du -s ${scriptlog} | awk '{print $1}')
+tarname=${logfil}-${ldate}.tar.gz
+declare -i tarcount=$(ls ${logdir}/${logfil}-* | wc -l)
+[[ ${tarmax} -ge ${tarsize} ]] && tardo=true || tardo=false
+taroldst=$(ls -1rt ${scriptlog}-* | head -n 1)
+#
+####    RSYNC Data
+#
+repotarget=/srv/www/htdocs/home_repos/suse/leap/15/x86_64
+reposource="wbc@c4hostweb:/home/wbc/rpmbuild/RPMS/x86_64"
+repodat="/srv/www/htdocs/home_repos/suse/leap/15/"
+#
+###########################################################
+##    Execution - CleanUp - Exit/Status
+###########################################################
+#
+echo -e "\n$(date)" >> ${scriptlog}
+####    Use ssh rsa keypairs, or source your remote credentails
+rsync -arv --delete $reposource/* $repotarget/. >> ${scriptlog} 2>&1
+createrepo $repodat >> ${scriptlog} 2>&1
+if ${tardo}; then
+    tar -czvf ${logdir}/${tarname} -C ${logdir}/ ${logfil}
+    > ${scriptlog}
+fi
+while [[ ${tarcount} -ge ${tarkeep} ]]; do
+    rm -f ${taroldst}
+done
+#
+##    Exit Cleanly
+exit 0
+#
