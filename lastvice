@@ -1,0 +1,167 @@
+#!/bin/bash
+#
+####    lastvice
+####    Author- Shawn Miller
+####    Friday 15 February 2018
+#
+###########################################################
+##    Date Variables
+###########################################################
+#
+CASDATE="$(date +%a\ %b\ %d\ %Y)"
+FILNMDATE="$(date +%y%m%d-%H.%M.%S)"
+LOGFILDATE="$(date +%Y-%m-%d_%H-M)"
+LOGDATE="$(date +%Y-%m-%d_%H:%M)"
+#
+###########################################################
+##    Global Variables and Information Gathering
+###########################################################
+#
+PROGNAME=$(basename $0)
+PROGVERS="1.0.1-01"
+PROGDATE="2018-02-15"
+#
+###########################################
+####    Declare Color Variables
+###########################################
+#
+#[[ $@ =~ "nocolor" ]] && NOCOLR=true || NOCOLR=false
+#
+### Color Variables [Delete unused variables when done]
+#
+#if ! $NOCOLR; then
+RED="$(tput setaf 1)"
+GRN="$(tput setaf 2)"
+YLLW="$(tput setaf 3)"
+BLU="$(tput setaf 4)"
+MAG="$(tput setaf 5)"
+CYN="$(tput setaf 6)"
+LTRED="$(tput setaf 9)"
+LTGRN="$(tput setaf 10)"
+LTYLLW="$(tput setaf 11)"
+LTBLU="$(tput setaf 12)"
+LTMAG="$(tput setaf 13)"
+LTCYN="$(tput setaf 14)"
+BGBLU="$(tput setab 4)"
+BGYLLW="$(tput setab 3)"
+BGLYLLW="$(tput setab 11)"
+ULINE="$(tput smul)"
+NULINE="$(tput rmul)"
+SOMODE="$(tput smso)"
+NSOMODE="$(tput rmso)"
+BOLD="$(tput bold)"
+RESET="$(tput sgr0)"
+#fi
+#
+###########################################################
+##    Script Options/Usage
+###########################################################
+#
+usage () {
+    clear
+    cat <<EOT
+${BOLD}${YLLW}
+Description-${RESET}${YLLW}
+    I started this script shortly after I quit smoking cigarettes and I wanted to
+    keep up with how many days it had been, everything was 'hard-coded' with my own
+    info. I soon realized that this could be used for anyone and for any bad habit
+    or vice that had been broken.${BOLD}
+Options-${RESET}${CYN}
+    [help]${GRN}          Help${YLLW}             Show this output and exit${CYN}
+    []${GRN}              None${YLLW}             Will default to MY original hard-coded arguments${CYN}
+    [${YLLW}<yourname>${CYN}]${GRN}    Your Name${YLLW}        Put your name as the ${BOLD}${ULINE}${LTCYN}FIRST${NULINE}${RESET}${YLLW} argument, Can be${CYN} Shawn${YLLW} or${CYN} "Shawn Miller"${CYN}
+    [${YLLW}<quitdate>${CYN}]${GRN}    Quit Date${YLLW}        Put your quit date as the ${BOLD}${ULINE}${LTCYN}SECOND${NULINE}${RESET}${YLLW} argument, as${BOLD} YYYY-MM-DD${RESET}${YLLW}
+  Optional-${RESET}${YLLW} The following options are optional, Default vice is "a cigarette"${CYN}
+    [${YLLW}<yourvice>${CYN}]${GRN}    Your Vice${YLLW}        Optional- Put your Vice/Bad-Habit as the ${BOLD}${ULINE}${LTCYN}THIRD${NULINE}${RESET}${YLLW} argument, Can be${CYN} drinking${YLLW} or${CYN} "drinking soda"${YLLW}(Never quit COFFEE!)${CYN}
+    [months]${GRN}        Number Months${LTRED}    (Option Not Available Yet!)${CYN}
+    [years]${GRN}         Number Years${LTRED}     (Option Not Available Yet!)${BOLD}${YLLW}
+Usage-${RESET}${GRN}
+    ${PROGNAME}${CYN} [OPTION] [${YLLW}<YourName${CYN}|${YLLW}"Your Name">${CYN}] [${YLLW}<QuitDate>${CYN}]${YLLW}
+    Example-${GRN}
+        ./$PROGNAME "Shawn Miller" 2018-11-19
+        ./$PROGNAME "Shawn Miller" 2018-11-19 "Drinking Dr. Pepper!"${YLLW} ( not really :P )
+${RESET}
+EOT
+}
+#
+###########################################
+####    Declare Arg Checks
+###########################################
+#
+[[ $@ =~ "help" ]] && { usage; exit 0; }
+#[[ $@ =~ "nocolor" ]] &&i NOCOLR=true || NOCOLR=false
+[[ ! $2 ]] && quitdate="2018-11-19" || quitdate=$2
+[[ ! $1 ]] && quitter="Shawn Miller" || quitter=$1
+if [[ "`echo $3`" != "" ]]; then
+    if [[ $(echo $3) == "months" ]]; then
+        mywhat="a cigarette!!!"
+    elif [[ $(echo $3) == "years" ]]; then
+        mywhat="a cigarette!!!"
+    else
+        mywhat=$3
+    fi
+else
+    mywhat="a cigarette!!!"
+fi
+[[ $@ =~ "months" ]] && months=true || months=false
+[[ $@ =~ "years" ]] && months=true || years=false
+#
+###########################################
+####    Environment Variables and Information Gathering
+###########################################
+#
+declare -i numdays=$(echo $((($(date +%s --date $quitdate)-$(date +%s))/(3600*24))) | sed 's/[^0-9]//g')
+if [[ $numdays -ge 180 ]]; then
+    allrt_clr="${BOLD}${GRN}${SOMODE}${ULINE}"
+else
+    if [[ $numdays -le "179" ]]; then
+        if [[ $numdays -le "89" ]]; then
+            allrt_clr="${BOLD}${RED}${ULINE}"
+        else
+            allrt_clr="${BOLD}${YLLW}${ULINE}"
+        fi
+    fi
+fi
+#
+[[ $months ]] && numonths="$(expr $numdays '/' 30)"
+[[ $years ]] && numyears="$(expr $numdays '/' 365)"
+#
+###########################################
+####    Declare Functions
+###########################################
+#
+norm_print () {
+echo -e "\n${BOLD}${GRN}${quitter}${RESET}${YLLW} has gone${BOLD}${CYN} =====>>>>>  ${allrt_clr}${numdays}${NULINE}${NSOMODE}${RESET}${BOLD}${CYN}  <<<<<=====${RESET}${YLLW} Days without ${mywhat}\n${RESET}"
+}
+#
+so_print () {
+echo -e "\n${SOMODE}${BOLD}${GRN}${quitter}${RESET}${SOMODE}${YLLW} has gone${BOLD}${CYN} =====>>>>>  ${allrt_clr}${numdays}${NULINE}${RESET}${SOMODE}${BOLD}${CYN}  <<<<<=====${RESET}${SOMODE}${YLLW} Days without ${mywhat}\n${NSOMODE}${RESET}"
+}
+#
+declare -i times=10
+declare -i count=0
+if [[ $numdays -ge 90 ]]; then
+    until (( times == count )); do
+        clear
+        norm_print
+        sleep .5
+        clear
+        so_print
+        sleep .5
+        ((++count))
+    done
+else
+    norm_print
+fi
+#
+if $months; then
+    echo -e "${BOLD}${allrt_clr}${numonths} Months\n${RESET}"
+fi
+if $years; then
+    echo -e "${BOLD}${allrt_clr}${numyears} Years\n${RESET}"
+fi
+#
+exit 0
+#
+####    Reference: https://linuxconfig.org/how-to-count-days-since-a-specific-date-until-today-using-bash-shell
+#

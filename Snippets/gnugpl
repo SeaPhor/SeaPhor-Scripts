@@ -4,12 +4,14 @@
 #####################################################################
 #
 gpl_info () {
+PROGNAME="$(basename $0)"
+RDATE="$(date +%Y-%m-%d)"
     cat <<EOT
 ${LTCYN}
 ####c4#############################################################################
 ###                                                                             ###
 ##                      GNU/GPL Info                                             ##
-##      $0 <Original Release/Version>-0.0.0-01 - <Date>	                         ##
+##      ${PROGNAME}-0.0.0-01 - ${RDATE}	                                         ##
 ##      Released under GPL v2.0, See www.gnu.org for full license info           ##
 ##      Copyright (C) <Year>  <Author>, <Company>        			 ##
 ##              EMAIL<1>-      							 ##
@@ -31,6 +33,7 @@ ${LTCYN}
 ####w#################################b######################################c#####${RESET}
 EOT
 }
+gpl_info
 #
 ####    For full GNU/GPL see the following:
 # https://github.com/SeaPhor/SeaPhor-Scripts/blob/master/LICENSE
