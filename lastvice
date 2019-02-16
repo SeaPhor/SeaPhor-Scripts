@@ -5,15 +5,6 @@
 ####    Friday 15 February 2018
 #
 ###########################################################
-##    Date Variables
-###########################################################
-#
-CASDATE="$(date +%a\ %b\ %d\ %Y)"
-FILNMDATE="$(date +%y%m%d-%H.%M.%S)"
-LOGFILDATE="$(date +%Y-%m-%d_%H-M)"
-LOGDATE="$(date +%Y-%m-%d_%H:%M)"
-#
-###########################################################
 ##    Global Variables and Information Gathering
 ###########################################################
 #
@@ -25,11 +16,6 @@ PROGDATE="2018-02-15"
 ####    Declare Color Variables
 ###########################################
 #
-#[[ $@ =~ "nocolor" ]] && NOCOLR=true || NOCOLR=false
-#
-### Color Variables [Delete unused variables when done]
-#
-#if ! $NOCOLR; then
 RED="$(tput setaf 1)"
 GRN="$(tput setaf 2)"
 YLLW="$(tput setaf 3)"
@@ -51,7 +37,6 @@ SOMODE="$(tput smso)"
 NSOMODE="$(tput rmso)"
 BOLD="$(tput bold)"
 RESET="$(tput sgr0)"
-#fi
 #
 ###########################################################
 ##    Script Options/Usage
@@ -60,27 +45,28 @@ RESET="$(tput sgr0)"
 usage () {
     clear
     cat <<EOT
-${BOLD}${YLLW}
-Description-${RESET}${YLLW}
-    I started this script shortly after I quit smoking cigarettes and I wanted to
-    keep up with how many days it had been, everything was 'hard-coded' with my own
-    info. I soon realized that this could be used for anyone and for any bad habit
-    or vice that had been broken.${BOLD}
-Options-${RESET}${CYN}
-    [help]${GRN}          Help${YLLW}             Show this output and exit${CYN}
-    []${GRN}              None${YLLW}             Will default to MY original hard-coded arguments${CYN}
-    [${YLLW}<yourname>${CYN}]${GRN}    Your Name${YLLW}        Put your name as the ${BOLD}${ULINE}${LTCYN}FIRST${NULINE}${RESET}${YLLW} argument, Can be${CYN} Shawn${YLLW} or${CYN} "Shawn Miller"${CYN}
-    [${YLLW}<quitdate>${CYN}]${GRN}    Quit Date${YLLW}        Put your quit date as the ${BOLD}${ULINE}${LTCYN}SECOND${NULINE}${RESET}${YLLW} argument, as${BOLD} YYYY-MM-DD${RESET}${YLLW}
-  Optional-${RESET}${YLLW} The following options are optional, Default vice is "a cigarette"${CYN}
-    [${YLLW}<yourvice>${CYN}]${GRN}    Your Vice${YLLW}        Optional- Put your Vice/Bad-Habit as the ${BOLD}${ULINE}${LTCYN}THIRD${NULINE}${RESET}${YLLW} argument, Can be${CYN} drinking${YLLW} or${CYN} "drinking soda"${YLLW}(Never quit COFFEE!)${CYN}
-    [months]${GRN}        Number Months${LTRED}    (Option Not Available Yet!)${CYN}
+${BOLD}${YLLW}Description-${RESET}${LTCYN}
+    I started this script shortly after I quit smoking cigarettes and I wanted to keep up with how
+    many days it had been, everything was 'hard-coded' with my own info. I soon realized that this
+    could be used for anyone and for any bad habit or vice that had been broken.${BOLD}
+Options-${RESET}${LTYLLW}
+    ${ULINE}OPTION          Description      Long Description                           ${NULINE}${RESET}${LTCYN}
+    [help]${GRN}          Help${YLLW}             Show this output and exit${LTCYN}
+    []${GRN}              None${YLLW}             Will default to MY original hard-coded arguments${LTCYN}
+    [${YLLW}<yourname>${LTCYN}]${GRN}    Your Name${YLLW}        Put your name as the ${BOLD}${ULINE}${LTCYN}FIRST${NULINE}${RESET}${YLLW} argument, Can be${LTCYN} Shawn${YLLW} or${LTCYN} "Shawn Miller"${LTCYN}
+    [${YLLW}<quitdate>${LTCYN}]${GRN}    Quit Date${YLLW}        Put your quit date as the ${BOLD}${ULINE}${LTCYN}SECOND${NULINE}${RESET}${YLLW} argument, as${BOLD}${LTCYN} YYYY-MM-DD${RESET}${LTYLLW}
+  ${ULINE}Optional${NULINE}-${RESET}${LTYLLW} The following arguments are optional, Default vice is "a cigarette"${LTCYN}
+    [${YLLW}<yourvice>${LTCYN}]${GRN}    Your Vice${YLLW}        Optional- Put your Vice/Bad-Habit as the ${BOLD}${ULINE}${LTCYN}THIRD${NULINE}${RESET}${YLLW} argument, 
+                                       Can be${LTCYN} drinking${YLLW} or${LTCYN} "drinking soda"${YLLW}${LTCYN}
+    [months]${GRN}        Number Months${LTRED}    (Option Not Available Yet!)${LTCYN}
     [years]${GRN}         Number Years${LTRED}     (Option Not Available Yet!)${BOLD}${YLLW}
 Usage-${RESET}${GRN}
-    ${PROGNAME}${CYN} [OPTION] [${YLLW}<YourName${CYN}|${YLLW}"Your Name">${CYN}] [${YLLW}<QuitDate>${CYN}]${YLLW}
+    ./${PROGNAME}${LTCYN} [OPTION] [${YLLW}<YourName${LTCYN}|${YLLW}"Your Name">${LTCYN}] [YYYY-MM-DD] [${YLLW}<"Your Vice">${LTCYN}] [months|years]${YLLW} 
     Example-${GRN}
         ./$PROGNAME "Shawn Miller" 2018-11-19
-        ./$PROGNAME "Shawn Miller" 2018-11-19 "Drinking Dr. Pepper!"${YLLW} ( not really :P )
-${RESET}
+        ./$PROGNAME "Shawn Miller" 2018-11-19 "Drinking Dr. Pepper!"${YLLW}
+Feedback, Questions, Bugs- ${LTBLU}seaphor@woodbeeco.com${YLLW}
+Github-${LTBLU} https://github.com/SeaPhor${RESET}
 EOT
 }
 #
@@ -131,11 +117,11 @@ fi
 ###########################################
 #
 norm_print () {
-echo -e "\n${BOLD}${GRN}${quitter}${RESET}${YLLW} has gone${BOLD}${CYN} =====>>>>>  ${allrt_clr}${numdays}${NULINE}${NSOMODE}${RESET}${BOLD}${CYN}  <<<<<=====${RESET}${YLLW} Days without ${mywhat}\n${RESET}"
+echo -e "\n${BOLD}${GRN}${quitter}${RESET}${YLLW} has gone${BOLD}${CYN} =====>>>>>  ${allrt_clr}${numdays}${NULINE}${NSOMODE}${RESET}${BOLD}${CYN}  <<<<<=====${RESET}${LTYLLW} Days without ${mywhat}\n${RESET}"
 }
 #
 so_print () {
-echo -e "\n${SOMODE}${BOLD}${GRN}${quitter}${RESET}${SOMODE}${YLLW} has gone${BOLD}${CYN} =====>>>>>  ${allrt_clr}${numdays}${NULINE}${RESET}${SOMODE}${BOLD}${CYN}  <<<<<=====${RESET}${SOMODE}${YLLW} Days without ${mywhat}\n${NSOMODE}${RESET}"
+echo -e "\n${SOMODE}${BOLD}${GRN}${quitter}${RESET}${SOMODE}${YLLW} has gone${BOLD}${CYN} =====>>>>>  ${allrt_clr}${numdays}${NULINE}${RESET}${SOMODE}${BOLD}${CYN}  <<<<<=====${RESET}${SOMODE}${LTYLLW} Days without ${mywhat}\n${NSOMODE}${RESET}"
 }
 #
 declare -i times=10
