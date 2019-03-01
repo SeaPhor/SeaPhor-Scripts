@@ -8,8 +8,8 @@
 ###	Define Standard Variables		###
 ###################################################
 #	Global Variables
-    JVER="Bug-Report-1.0.1-04"
-    PCHLVL="1.0.1-04"
+    JVER="Bug-Report-1.0.1-03"
+    PCHLVL="1.0.1-03"
     PCHDAT="24 February, 2019"
 	PROGNAME=$(basename $0)
 	USAGE="\n\n$(tput setaf 3) $PROGNAME -[OPTION] <filename>.csv$(tput sgr 0) \n"
@@ -65,12 +65,10 @@ esac
   [-d]	Description		Bug-Report Script Description
   [-l]	Show C4 Logo		Displays the C4 Logo with Version
   [-g]	GPL Info		GNU/GPL License Information
-  [-V]	No Pauses		Stop all pauses, faster inputs
-ONLY use the PIPE '|' as a delimiter, NOT tabs or commas!"
+  [-V]	No Pauses		Stop all pauses, faster inputs"
 	DESCRIPT=" This script was originally desined for my work as advocate with Codeweavers Crossover Linux, and then for use of my team as QA Director for Valiance Online with SilverHelm Studios.
  	It could easily be modified for use with any QA-type bug reporting by adjusting the Variable Values and Options Menu.
  	The out put is kept in a hidden directory in the user's Home directory because some projects are more confidential- [~/.Per/]
-    ONLY use the PIPE '|' as a delimiter, NOT tabs or commas!
  	The output was also specifically designed in a format that could be simply imported to the running Master Bug Report SpreadSheet and all fields and columns would line up and match.
  	Please feel free to send me questions, suggestions, or any issues with the script at...
 seaphor@woodbeeco.com"
@@ -90,26 +88,20 @@ fi
 ###	Functions
 ###################################################
 #
-####    NEEDED
-#ls -1 /home/wbc/.Per/*.csv | awk -FPer/ '{ print $2 }'
-csvlst="`ls -1 /home/wbc/.Per/*.csv | awk -FPer/ '{ print $2 }'`"
-declare -i repcount="$(ls -1 ${REPDIR}/*.csv | wc -l)"
-#
 view_report () {
 targfiles="$(ls -1 ${REPDIR}/*.csv)"
+declare -i repcount="$(ls -1 ${REPDIR}/*.csv | wc -l)"
 if [[ $repcount == "" ]]; then
     myreports=false
     echo -e "No reports to view, exiting..."
     exit 1
 else
     myreports=true
-    [[ $repcount -eq "1" ]] && viewreport=${REPDIR}/$csvlst
-#    [[ $repcount -eq "1" ]] && viewreport=$(echo ${targfiles})
+    [[ $repcount -eq "1" ]] && viewreport=$(echo ${targfiles})
 fi
 if [[ $repcount -ge "2" ]]; then
     clear
-    echo $csvlst 2>/dev/null
-#    echo $targfiles 2>/dev/null
+    echo $targfiles 2>/dev/null
     read -p "
     Type the name of the file you want to view...
     " choosfile
@@ -138,7 +130,6 @@ bugfil=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "Bug Report
 cancel_exit
 case $bugfil in
   "1")
-    
     bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "New Bug Report File Name" --inputbox "Type FileName - [filename.csv]:" 0 0`
     ;;
   "2")
@@ -154,12 +145,8 @@ cancel_exit
             bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "New Bug Report File Name" --inputbox "There are no Existing Reports- Type New FileName - [filename.csv]:" 0 0`
 cancel_exit
           else
-    #          if [[ $repcount -eq "1" ]]; then
-#                  bugfilame=${REPDIR}/$csvlst
-#              else
-                  dialog --backtitle "C4 Bug Report Tool" --title "Existing Report/s" --infobox "$lsdir" 0 0 ; sleep 4
-                  bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "Existing Bug Report File Name" --inputbox "Type FileName from previous list - :" 0 0`
-#              fi
+            dialog --backtitle "C4 Bug Report Tool" --title "Existing Report/s" --infobox "$lsdir" 0 0 ; sleep 4
+            bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "Existing Bug Report File Name" --inputbox "Type FileName from previous list - :" 0 0`
 cancel_exit
           fi
           ;;
@@ -296,22 +283,28 @@ case "$1" in
 "-h")
 	dialog --backtitle "C4 Bug Report Tool" --title "Help - Options and Usage" --infobox "$OPTIONS" 0 0 ; sleep 4
     cancel_tui
+    clear
+    echo -e "\n\tONLY use the PIPE '|' as a delimiter, NOT tabs or commas!"
 	exit $?
         ;;
 "-d")
 	dialog --backtitle "C4 Bug Report Tool" --title "Description" --infobox "$DESCRIPT" 0 0 ; sleep 4
     cancel_tui
+    clear
+    echo -e "\n\tONLY use the PIPE '|' as a delimiter, NOT tabs or commas!"
 	exit $?
 	;;
 "-v")
 	dialog --backtitle "C4 Bug Report Tool" --title "C4 Bug Report Script Release" --infobox "$JVER $PCHDAT" 0 0 ; sleep 4
     cancel_tui
+    clear
+    echo -e "\n\tONLY use the PIPE '|' as a delimiter, NOT tabs or commas!"
 	exit $?
 	;;
 esac
 bug_startbug
 cancel_tui
-#clear
+clear
 echo -e "\n\tONLY use the PIPE '|' as a delimiter, NOT tabs or commas!"
 exit $?
 ###	END OF WORKING
@@ -337,8 +330,6 @@ exit $?
 ##@     - - Fixed
 ##@ Patch-Level-1.0.1-03
 ##@     Needed for next promotion- 1.0.1-04
-##@     - Clean up the Help
-##@     - Fix the clear for info options
 ##@     
 ##@     
 ##@     

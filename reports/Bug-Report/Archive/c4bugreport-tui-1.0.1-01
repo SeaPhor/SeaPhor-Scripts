@@ -8,9 +8,9 @@
 ###	Define Standard Variables		###
 ###################################################
 #	Global Variables
-    JVER="Bug-Report-1.0.1-04"
-    PCHLVL="1.0.1-04"
-    PCHDAT="24 February, 2019"
+        JVER="Bug-Report-1.0.1-01"
+        PCHLVL="1.0.1-01"
+        PCHDAT="12 September, 2018"
 	PROGNAME=$(basename $0)
 	USAGE="\n\n$(tput setaf 3) $PROGNAME -[OPTION] <filename>.csv$(tput sgr 0) \n"
 	TDATE=`date +%a\ %b\ %d\ %Y`
@@ -18,8 +18,8 @@
 	WDATE="`date +%U\ %Y`"
 #	Script Variables
 	HELP=false
-    OUTFIL=~/$2
-    INITRUN=false
+        OUTFIL=~/$2
+        INITRUN=false
 	inpdialog=${inpdialog=dialog}
 case $3 in
 	"-V")
@@ -65,12 +65,10 @@ esac
   [-d]	Description		Bug-Report Script Description
   [-l]	Show C4 Logo		Displays the C4 Logo with Version
   [-g]	GPL Info		GNU/GPL License Information
-  [-V]	No Pauses		Stop all pauses, faster inputs
-ONLY use the PIPE '|' as a delimiter, NOT tabs or commas!"
+  [-V]	No Pauses		Stop all pauses, faster inputs"
 	DESCRIPT=" This script was originally desined for my work as advocate with Codeweavers Crossover Linux, and then for use of my team as QA Director for Valiance Online with SilverHelm Studios.
  	It could easily be modified for use with any QA-type bug reporting by adjusting the Variable Values and Options Menu.
  	The out put is kept in a hidden directory in the user's Home directory because some projects are more confidential- [~/.Per/]
-    ONLY use the PIPE '|' as a delimiter, NOT tabs or commas!
  	The output was also specifically designed in a format that could be simply imported to the running Master Bug Report SpreadSheet and all fields and columns would line up and match.
  	Please feel free to send me questions, suggestions, or any issues with the script at...
 seaphor@woodbeeco.com"
@@ -90,40 +88,6 @@ fi
 ###	Functions
 ###################################################
 #
-####    NEEDED
-#ls -1 /home/wbc/.Per/*.csv | awk -FPer/ '{ print $2 }'
-csvlst="`ls -1 /home/wbc/.Per/*.csv | awk -FPer/ '{ print $2 }'`"
-declare -i repcount="$(ls -1 ${REPDIR}/*.csv | wc -l)"
-#
-view_report () {
-targfiles="$(ls -1 ${REPDIR}/*.csv)"
-if [[ $repcount == "" ]]; then
-    myreports=false
-    echo -e "No reports to view, exiting..."
-    exit 1
-else
-    myreports=true
-    [[ $repcount -eq "1" ]] && viewreport=${REPDIR}/$csvlst
-#    [[ $repcount -eq "1" ]] && viewreport=$(echo ${targfiles})
-fi
-if [[ $repcount -ge "2" ]]; then
-    clear
-    echo $csvlst 2>/dev/null
-#    echo $targfiles 2>/dev/null
-    read -p "
-    Type the name of the file you want to view...
-    " choosfile
-    viewreport=${REPDIR}/${choosfile}
-fi
-[[ -f $viewreport ]] && ${myview} ${viewreport} || { echo -e "$viewreport is not a csv report file, exiting."; exit 1; }
-}
-#
-function cancel_tui
-{
-unset -f {bugrel,bugsev,typechk,bugsdsc,bugldsc,bugstr,bugwho,bugdate,statchk,bugfilname} 2>&1 > /dev/null
-clear
-}
-#
 function cancel_exit
 {
 if [[ $? == "1" ]]; then
@@ -138,7 +102,6 @@ bugfil=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "Bug Report
 cancel_exit
 case $bugfil in
   "1")
-    
     bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "New Bug Report File Name" --inputbox "Type FileName - [filename.csv]:" 0 0`
     ;;
   "2")
@@ -154,12 +117,8 @@ cancel_exit
             bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "New Bug Report File Name" --inputbox "There are no Existing Reports- Type New FileName - [filename.csv]:" 0 0`
 cancel_exit
           else
-    #          if [[ $repcount -eq "1" ]]; then
-#                  bugfilame=${REPDIR}/$csvlst
-#              else
-                  dialog --backtitle "C4 Bug Report Tool" --title "Existing Report/s" --infobox "$lsdir" 0 0 ; sleep 4
-                  bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "Existing Bug Report File Name" --inputbox "Type FileName from previous list - :" 0 0`
-#              fi
+            dialog --backtitle "C4 Bug Report Tool" --title "Existing Report/s" --infobox "$lsdir" 0 0 ; sleep 5
+            bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "Existing Bug Report File Name" --inputbox "Type FileName from previous list - :" 0 0`
 cancel_exit
           fi
           ;;
@@ -170,7 +129,7 @@ cancel_exit
         bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "New Bug Report File Name" --inputbox "There are no Existing Reports- Type New FileName - [filename.csv]:" 0 0`
 cancel_exit
       else
-        dialog --backtitle "C4 Bug Report Tool" --title "Existing Report/s" --infobox "$lsdir" 0 0 ; sleep 4
+        dialog --backtitle "C4 Bug Report Tool" --title "Existing Report/s" --infobox "$lsdir" 0 0 ; sleep 5
         bugfilame=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "Existing Bug Report File Name" --inputbox "Type FileName from previous list - :" 0 0`
 cancel_exit
       fi
@@ -181,7 +140,7 @@ esac
 BREPRT=$REPDIR/$bugfilame
 if [[ ! -a $BREPRT ]]; then
   touch $REPDIR/$bugfilame
-  printf "\n $CHA |$CHB |$CHC |$CHD |$CHE |$CHF |$CHG |$CHH |$CHI |$CHU \n" > $BREPRT 
+  printf "\n $CHA \t$CHB \t$CHC \t$CHD \t$CHE \t$CHF \t$CHG \t$CHH \t$CHI \t$CHU \n" > $BREPRT 
 fi
 #
 bugrel=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "SVN or Live Release Rev" --inputbox "Type SVN or Live Release Rev:" 0 0`
@@ -248,7 +207,7 @@ case $bugstatus in
     ;;
 esac
 #
-printf "$bugrel |$bugsev |$typechk |$bugsdsc |$bugldsc |$bugstr |$bugwho |$bugdate |$statchk \n" >> $BREPRT
+printf "$bugrel \t$bugsev \t$typechk \t$bugsdsc \t$bugldsc \t$bugstr \t$bugwho \t$bugdate \t$statchk \n" >> $BREPRT
 unset -f {bugrel,bugsev,typechk,bugsdsc,bugldsc,bugstr,bugwho,bugdate,statchk} 2>&1 > /dev/null
 	bug_startbug
 }
@@ -256,7 +215,7 @@ unset -f {bugrel,bugsev,typechk,bugsdsc,bugldsc,bugstr,bugwho,bugdate,statchk} 2
 function bug_startbug
 {
 ###     Request Input Bug
-	dialog --backtitle "C4 Bug Report Tool" --title "Help - Options and Usage" --infobox "$OPTIONS" 0 0 ; sleep 4
+	dialog --backtitle "C4 Bug Report Tool" --title "Help - Options and Usage" --infobox "$OPTIONS" 0 0 ; sleep 6
 bugrun=`$inpdialog --stdout --backtitle "C4 Bug Report Tool" --title "Bug Report Menu" --radiolist "Choose An Option:" 0 0 0 1 "Add Entry" on  2 "Read Bug Report" off 3 "Mail Bug Report" off 4 "Edit Bug Report [default editor is vi]" off 5 "Quit" off`
 cancel_exit
 case $bugrun in
@@ -264,24 +223,20 @@ case $bugrun in
     bug_line
     ;;
   "2")
-    cancel_tui
-    myview="/usr/bin/less"
-    view_report
+    clear
+    less $BREPRT
     exit $?
     ;;
   "3")
     exit $?
     ;;
   "4")
-    cancel_tui
-    myview="/usr/bin/vim"
-    view_report
+    clear
+    vim $BREPRT
     exit $?
     ;;
   "5")
-    cancel_tui
     clear
-    echo -e "\n\tONLY use the PIPE '|' as a delimiter, NOT tabs or commas!"
     exit $?
     ;;
 esac
@@ -295,24 +250,18 @@ esac
 case "$1" in
 "-h")
 	dialog --backtitle "C4 Bug Report Tool" --title "Help - Options and Usage" --infobox "$OPTIONS" 0 0 ; sleep 4
-    cancel_tui
 	exit $?
         ;;
 "-d")
 	dialog --backtitle "C4 Bug Report Tool" --title "Description" --infobox "$DESCRIPT" 0 0 ; sleep 4
-    cancel_tui
 	exit $?
 	;;
 "-v")
 	dialog --backtitle "C4 Bug Report Tool" --title "C4 Bug Report Script Release" --infobox "$JVER $PCHDAT" 0 0 ; sleep 4
-    cancel_tui
 	exit $?
 	;;
 esac
 bug_startbug
-cancel_tui
-#clear
-echo -e "\n\tONLY use the PIPE '|' as a delimiter, NOT tabs or commas!"
 exit $?
 ###	END OF WORKING
 ##
@@ -327,18 +276,8 @@ exit $?
 ##@     Started Change-Logs
 ##@     Needed for promotion- 1.0.1-02
 ##@     - Add 'Updates' column for tracking progress
-##@     - - Added complete
-##@ Patch-Level-1.0.1-02
-##@     Needed for next promotion- 1.0.1-03
+##@     - - Added
+##@     Needed for next promotion-
 ##@     - Add logic to search each variable/read column and replace commas
-##@     - - Changed the separator/deliminator to '|'
-##@     - - - Added echo at exit to instruct user NOT to use comas
 ##@     - Fix edit and read options
-##@     - - Fixed
-##@ Patch-Level-1.0.1-03
-##@     Needed for next promotion- 1.0.1-04
-##@     - Clean up the Help
-##@     - Fix the clear for info options
-##@     
-##@     
-##@     
+##@
