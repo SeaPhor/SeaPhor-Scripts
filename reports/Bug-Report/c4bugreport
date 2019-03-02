@@ -495,7 +495,6 @@ exit $?
 ##@        Changed Versioning syntax and style
 ##@        Changed indents going forward to be 4 spaces instead of TABs
 ##@        Changed name to c4bugreport
-##@        2019-02-24- found issue where writing multiple bugs puts all in one 
-##@        -row- needs fixed immediately
+##@
 ##@
 ##@
