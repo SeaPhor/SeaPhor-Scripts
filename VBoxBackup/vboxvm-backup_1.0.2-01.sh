@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #  Variables and Logging 
 PROGNAME=$(basename $0)
 RELVER="1.0.2-01"
@@ -104,7 +104,8 @@ done
 #  Start Logging
 echo -e "\n$RDATE" >> $LOGFILE
 #  Shutdown VM
-ssh -q -i ~/.ssh/id_rsa root@$VMHOST $STOPCMD 2>&1 >> $TMPLOG
+#ssh -q -i ~/.ssh/id_rsa root@$VMHOST $STOPCMD 2>&1 >> $TMPLOG
+####    Replace above with controlvm
 sleep 60
 #  Start Export && Restart VM
 cd $BAKDIR

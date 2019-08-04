@@ -1,0 +1,34 @@
+#!/bin/bash
+#curr_ver=$(git --version | sed -e 's/[^0-9,.]//g')
+#good_ver=2.15.2
+progname="$(basename $0)"
+usage () {
+cat <<EOT
+Usage:
+  Requires 2 (TWO) arguements
+  $progname <package-name> <target-version-release>
+EOT
+}
+[[ $# -ne 2 ]] && { usage; exit 1; }
+curr_ver=$($1 --version | sed -e 's/[^0-9,.]//g')
+good_ver=$2
+version_cmp () {
+echo "$@" | awk -F. '{ printf("%03d%03d%03d%03d%03d%03d\n", $1,$2,$3,$4,$5,$6); }'
+}
+####    Used as such:
+if [[ $(version_cmp $curr_ver 2>/dev/null) -ge $(version_cmp $good_ver 2>/dev/null) ]]; then
+    echo "good"
+    exit 0
+else
+    echo "Bad"
+    exit 0
+fi
+if [ $(version $VAR) -ge $(version "6.2.0") ]; then
+    echo "Version is up to date"
+fi
+exit 0
+####
+####    Reference
+####    https://stackoverflow.com/questions/4023830/how-to-compare-two-strings-in-dot-separated-version-format-in-bash
+#rhel
+#    avail_ver=$(repoquery --repoid=<reponame> -i git | egrep Version | awk '{print $3}')
