@@ -1,8 +1,8 @@
 #!/bin/bash
 #  Variables and Logging 
 PROGNAME=$(basename $0)
-RELVER="1.0.2-01"
-RELDATE="25-Mar-2018"
+RELVER="1.2.1-01"
+RELDATE="17-Jul-2020"
 SSHID=false
 YELLOW=`tput setaf 3`
 CYAN=`tput setaf 6`

@@ -1,3 +1,10 @@
+DO NOT USE THIS SCRIPT!!!!!!!!!!!!!!!!!!!!!
+I AM REVISING IT- YOU DO NOT NEED ROOT
+I AM REVISING IT- YOU DO NOT NEED ROOT
+I AM REVISING IT- YOU DO NOT NEED MOST OF WHAT IS HERE
+    Please email me for any questions- seaphor@woodbeeco.com
+    2020 July 17
+
 
 YOU MUST FOLLOW THESE INSTRUCTIONS!!!!
 - This screipt 'REQUIRES' your 'USER' to use your "USER'S" RSA-KEYS to connect to the VM as 'ROOT'-
