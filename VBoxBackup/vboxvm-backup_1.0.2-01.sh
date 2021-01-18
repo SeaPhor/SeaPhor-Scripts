@@ -1,8 +1,8 @@
 #!/bin/bash
 #  Variables and Logging 
 PROGNAME=$(basename $0)
-RELVER="1.0.2-01"
-RELDATE="25-Mar-2018"
+RELVER="1.0.3-01"
+RELDATE="18-Jan-2021"
 SSHID=false
 YELLOW=`tput setaf 3`
 CYAN=`tput setaf 6`
@@ -13,52 +13,52 @@ BOLD=`tput bold`
 RESET=`tput sgr0`
 OPTS="\n\t$YELLOW This script$RESET$LTRED REQUIRES$RESET$YELLOW 2 parameters-\n$RESET$CYAN $PROGNAME vmname hostname\n$RESET$LTYLLW  Optional$RESET$YELLOW 3rd parameter for storing VM backup\n  on a separate partition or remote NFS-\n$RESET$CYAN    $PROGNAME vmname hostname /path/to/directory [$RESET$LTCYN NO trailing /$RESET$CYAN ]\n$RESET$YELLOW    This script$RESET$LTRED REQUIRES$RESET$YELLOW using your$RESET$LTRED USER's$RESET$LTYLLW RSA-KEY$RESET$YELLOW pair to connect to the VM\n  as$RESET$LTRED ROOT$RESET$YELLOW to shut it down-\n$RESET$CYAN    ssh-gen-keygen && ssh-copy-id root@vmhostname$RESET$YELLOW => Input root password =>$RESET$CYAN ssh root@vmhostname$RESET$YELLOW to test.\n$RESET$LTYLLW    OR-\n$RESET$CYAN    ssh-gen-keygen && cat ~/.ssh/id_rsa.pub$RESET$YELLOW => HighLite all with NO whitespace and copy => ssh to vmhostname and become root =>$RESET$CYAN  vim ~/.ssh/authorized_keys$RESET$YELLOW  =>$RESET$LTCYN [o] to start insert-mode on a new line$RESET$YELLOW =>$RESET$LTCYN [SHIFT+INSERT] to Paste$RESET$YELLOW =>$RESET$LTCYN [ESC] to exit insert mode and [:wq] to save and quit$RESET$YELLOW =>$RESET$LTCYN [CTRL+d] log out.\n$RESET$YELLOW    Once that is tested you can do\n [$RESET$CYAN echo 'RSAKEYSDONE' >> ~/RSAKEYSDONE.txt$RESET$YELLOW ]\n$RESET "
 #  Check command and parameter syntax
-if [[ "`echo $1`" == "" ]]; then
+#if [[ "`echo $1`" == "" ]]; then
     echo -e $OPTS
     exit $?
-else
-    if [[ "`echo $2`" == "" ]]; then
-        echo -e $OPTS
-        exit $?
-    fi
-fi
+#else
+#    if [[ "`echo $2`" == "" ]]; then
+#        echo -e $OPTS
+#        exit $?
+#    fi
+#fi
 #
 #  KEEP THIS LINE #26 !!! Check for rsa
-if [[ ! -s ~/RSAKEYSDONE.txt ]]; then
-    ######## DELMEAFTR
-    printf "$LTRED 
-    ######## 
-    #  
-    #  RUN AS YOUR USER - NOT AS ROOT 
-    #  !!!! REQUIRES ROOT RSA PRIVATE KEY FROM YOUR USER'S ACCOUNT !!!! 
-    #  WHEN YOU HAVE DONE AND TESTED '> ssh-copy-id root@host' 
-    #  PERFORM THE 'echo...' STATEMENT BELOW WHEN SSH-COPY-ID ABOVE IS DONE 
-    #  READ THE 'READ-THE-README.MD' 
-    #  
-    ########$RESET  
-    \n" 
-    tail -n 5 $0 | grep 'RSAKEYSDONE'
-    sleep 7
-    echo -e $OPTS
-    echo -e "\n\t Do you want this script to set this up for you? \n [y/N] (n)\n"
-    read SETSSH
-    if [[ "`echo $SETSSH`" == "y" ]]; then
-        SSHID=true
-    else
-        exit $?
-    fi
-fi
+#if [[ ! -s ~/RSAKEYSDONE.txt ]]; then
+#    ######## DELMEAFTR
+#    printf "$LTRED 
+#    ######## 
+#    #  
+#    #  RUN AS YOUR USER - NOT AS ROOT 
+#    #  !!!! REQUIRES ROOT RSA PRIVATE KEY FROM YOUR USER'S ACCOUNT !!!! 
+#    #  WHEN YOU HAVE DONE AND TESTED '> ssh-copy-id root@host' 
+#    #  PERFORM THE 'echo...' STATEMENT BELOW WHEN SSH-COPY-ID ABOVE IS DONE 
+#    #  READ THE 'READ-THE-README.MD' 
+#    #  
+#    ########$RESET  
+#    \n" 
+#    tail -n 5 $0 | grep 'RSAKEYSDONE'
+#    sleep 7
+#    echo -e $OPTS
+#    echo -e "\n\t Do you want this script to set this up for you? \n [y/N] (n)\n"
+#    read SETSSH
+#    if [[ "`echo $SETSSH`" == "y" ]]; then
+#        SSHID=true
+#    else
+#        exit $?
+#    fi
+#fi
 #  KEEP THIS LINE #51 !!! Check for rsa
 #
 #
-if $SSHID; then
-    if [[ ! -f ~/.ssh/id_rsa.pub ]]; then
-        ssh-keygen
-    else
-        ssh-copy-id root@$2
-    fi
-    echo 'RSAKEYSDONE' >> ~/RSAKEYSDONE.txt
-fi
+#if $SSHID; then
+#    if [[ ! -f ~/.ssh/id_rsa.pub ]]; then
+#        ssh-keygen
+#    else
+#        ssh-copy-id root@$2
+#    fi
+#    echo 'RSAKEYSDONE' >> ~/RSAKEYSDONE.txt
+#fi
 if [[ "`echo $3`" != "" ]]; then
     BAKDIR=$3/VMBackups
     LOGFILE=$BAKDIR/VMLog.log
@@ -75,7 +75,13 @@ VMHOST=$2  # hostname or IP-Address of OS
 # or Hard-Code it yourself-
 #VMTARG="vmname"  # from VBoxManage list vms
 #VMHOST="hostname"  # hostname or IP-Address of OS 
-STOPCMD="/sbin/shutdown -h now"
+#STOPCMD="/sbin/shutdown -h now"
+####    VBoxManage commands on VM HOST Server
+#VBoxManage snapshot seaphor-web take c4web-20201129
+#VBoxManage controlvm seaphor-web acpipowerbutton
+#VBoxManage export seaphor-web -o seaphor-web-20201129.ova
+#VBoxManage startvm seaphor-web --type headless
+stopcmd="$(VBoxManage controlvm $VMTARG acpipowerbutton)"
 #  First run check
 if [[ ! -d $BAKDIR ]]; then
     mkdir $BAKDIR
