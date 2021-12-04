@@ -1,0 +1,2 @@
+#!/bin/bash
+{ echo -e "\n" ; date ; time 2>&1 ls -R ~/ ; } 2>&1 | egrep "^$(date +%a)|^real" >> filename.log 2>&1
