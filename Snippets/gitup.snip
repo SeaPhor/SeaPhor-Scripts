@@ -1,0 +1,15 @@
+#!/bin/bash
+
+####    This is to update- add commit and push all git repos on a system
+
+for i in $(find ~/. -type d -name .git)
+do
+    echo -e "\n$i"
+    cd $i/../
+    if [[ $(git status | grep modified) != "" ]]; then
+        git add -A
+        git commit -m "$(git status | grep modified)"
+        git push origin master
+    fi
+done
+exit $?
