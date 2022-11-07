@@ -1,6 +1,21 @@
 #!/bin/bash
-sudo cp /etc/crontab /etc/crontab.bak_$(date +%F)
-for i in #list entries to be removed here
+ent_list="list entries to be removed here"
+cronlst=false
+for i in $(echo $ent_list)
 do
-    sudo sed -i "$(sudo grep -n $i /etc/crontab | awk -F: '{print $1}')d" /etc/crontab
+    [[ $(grep $i /etc/crontab) ]] && cronlst=true
 done
+if [[ $cronlst ]]; then
+    sudo cp /etc/crontab /etc/crontab.bak_$(date +%F)
+    for i in $(echo $ent_list)
+    do
+        sudo sed -i "$(sudo grep -n $i /etc/crontab | awk -F: '{print $1}')d" /etc/crontab
+    done
+fi
+for i in $(echo $ent_list)
+do
+    if [[ $(ls /etc/centdir/openldir/ | grep $i) != "" ]]; then
+        rm -f /etc/centdir/openldir/$i
+    fi
+done
+

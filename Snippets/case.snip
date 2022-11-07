@@ -1,0 +1,4 @@
+#!/bin/bash
+####    Change case from upper to lower and retrieve value
+get_env="$(grep -i env /etc/BUILD_PROFILE | tr '[:upper:]' '[:lower:]' | grep 'enval="' | awk -F\" '{print $2}')"
+
