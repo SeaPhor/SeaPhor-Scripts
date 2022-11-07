@@ -8,6 +8,7 @@ do
     cd $i/../
     if [[ $(git status | grep 'nothing to commit') == "" ]]; then
         message="$(git status | grep -A10 'Changes not staged for commit:')"
+        git pull origin master
         git add -A
         git commit -m "Added $message"
         git push origin master
