@@ -12,6 +12,7 @@ do
         git add -A
         git commit -m "Added $message"
         git push origin master
+        echo -e "\t$(git last)"
     fi
 done
 exit $?
