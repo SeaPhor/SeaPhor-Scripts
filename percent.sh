@@ -18,7 +18,7 @@ if [[ $q == "n" ]]; then
 else
     read -p "Ok then what is the 'n' value? " n
 fi
-read -p "And what is the mass amount you need the percetage of?? " a
+read -p "And what is the 'a' value? The amount you need the percetage of?? " a
 
 for f in n x a ; do declare -i $f=$f; done
 
